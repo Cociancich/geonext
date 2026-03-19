@@ -50,7 +50,7 @@
             color: #444;
             font-size: 0.92rem;
         }
-        #map { height: 700px; width: 80%; margin: 20px auto; border: 2px solid #333; background: #ddd; }
+        #map { height: 700px; width: 80%; margin: 20px auto; border: 2px solid #333; background: #9fd8ff; }
         #status { font-weight: bold; color: blue; display: none; }
         .modal-overlay {
             position: fixed;
@@ -493,9 +493,10 @@
 
                 const countryBorders = L.geoJSON(geojson, {
                     style: {
-                        color: '#6b7280',
+                        color: '#2f6f2f',
                         weight: 1,
-                        fillOpacity: 0.05
+                        fillColor: '#7bc67b',
+                        fillOpacity: 0.7
                     }
                 }).addTo(map);
                 map.fitBounds(countryBorders.getBounds(), { padding: [8, 8] });

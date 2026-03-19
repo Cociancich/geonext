@@ -44,6 +44,20 @@
         #load-questions-file {
             display: none;
         }
+        #question-display {
+            width: 80%;
+            margin: 12px auto;
+            padding: 12px;
+
+            color: #31074d;
+            font-size: 1.125rem;
+            line-height: 1.5;
+            min-height: 20px;
+            display: none;
+        }
+        #question-display.active {
+            display: block;
+        }
         #csv-info {
             width: 80%;
             margin: 8px auto 0;
@@ -108,11 +122,11 @@
         <select id="country-select" disabled>
             <option>Caricamento lista...</option>
         </select>
-        <button id="set-country" type="button" disabled>Imposta stato</button>
         <button id="random-country" type="button" disabled>Random</button>
         <button id="load-questions-file" type="button">Carica questions.csv</button>
         <input id="questions-file-input" type="file" accept=".csv,text/csv" hidden />
     </div>
+    <div id="question-display"></div>
     <!-- <div id="csv-info">File lista: questions.csv</div> -->
     <div id="map"></div>
     <div id="game-modal" class="modal-overlay" aria-hidden="true">
@@ -408,7 +422,6 @@
             const statusEl = document.getElementById('status');
             const csvInfoEl = document.getElementById('csv-info');
             const selectEl = document.getElementById('country-select');
-            const setCountryButton = document.getElementById('set-country');
             const randomCountryButton = document.getElementById('random-country');
             const loadQuestionsButton = document.getElementById('load-questions-file');
             const questionsFileInput = document.getElementById('questions-file-input');
@@ -457,13 +470,32 @@
                     const item = targetItems[i];
                     const option = document.createElement('option');
                     option.value = String(i);
-                    option.textContent = item.id + ' - ' + (item.question || ('Trova lo Stato: ' + getCountryName(item.feature)));
+                    option.textContent = item.id;
                     selectEl.appendChild(option);
                 }
 
                 selectEl.disabled = targetItems.length === 0;
-                setCountryButton.disabled = targetItems.length === 0;
                 randomCountryButton.disabled = targetItems.length === 0;
+            }
+
+            function updateQuestionDisplay() {
+                const questionDisplayEl = document.getElementById('question-display');
+                if (!questionDisplayEl) return;
+
+                const selectedIndex = Number(selectEl.value);
+                if (!Number.isInteger(selectedIndex) || selectedIndex < 0 || selectedIndex >= targetItems.length) {
+                    questionDisplayEl.classList.remove('active');
+                    questionDisplayEl.innerText = '';
+                    return;
+                }
+
+                const selectedItem = targetItems[selectedIndex];
+                questionDisplayEl.innerText = selectedItem.question || ('Trova lo Stato: ' + getCountryName(selectedItem.feature));
+                questionDisplayEl.classList.add('active');
+                
+                // Auto-set the target when selected from dropdown
+                randomMode = false;
+                setTarget(selectedItem.feature, "Stato scelto da CSV");
             }
 
             function setRandomTarget() {
@@ -572,6 +604,8 @@
                 return;
             }
 
+            selectEl.addEventListener('change', updateQuestionDisplay);
+
             if (loadQuestionsButton && questionsFileInput) {
                 loadQuestionsButton.addEventListener('click', function() {
                     questionsFileInput.click();
@@ -608,17 +642,6 @@
                     }
                 });
             }
-
-            setCountryButton.addEventListener('click', function() {
-                const selectedIndex = Number(selectEl.value);
-                if (!Number.isInteger(selectedIndex) || selectedIndex < 0 || selectedIndex >= targetItems.length) {
-                    return;
-                }
-
-                randomMode = false;
-                const selectedFeature = targetItems[selectedIndex].feature;
-                setTarget(selectedFeature, "Stato scelto da CSV");
-            });
 
             randomCountryButton.addEventListener('click', function() {
                 randomMode = true;

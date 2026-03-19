@@ -41,6 +41,9 @@
             opacity: 0.65;
             cursor: not-allowed;
         }
+        #load-questions-file {
+            display: none;
+        }
         #csv-info {
             width: 80%;
             margin: 8px auto 0;
@@ -107,6 +110,8 @@
         </select>
         <button id="set-country" type="button" disabled>Imposta stato</button>
         <button id="random-country" type="button" disabled>Random</button>
+        <button id="load-questions-file" type="button">Carica questions.csv</button>
+        <input id="questions-file-input" type="file" accept=".csv,text/csv" hidden />
     </div>
     <!-- <div id="csv-info">File lista: questions.csv</div> -->
     <div id="map"></div>
@@ -194,6 +199,50 @@
                 .trim();
         }
 
+        function decodeCsvBytes(arrayBuffer) {
+            const utf8Text = new TextDecoder('utf-8').decode(arrayBuffer);
+            if (utf8Text.indexOf('\uFFFD') === -1) {
+                return utf8Text;
+            }
+
+            const win1252Text = new TextDecoder('windows-1252').decode(arrayBuffer);
+            const utf8ReplacementCount = (utf8Text.match(/\uFFFD/g) || []).length;
+            const win1252ReplacementCount = (win1252Text.match(/\uFFFD/g) || []).length;
+
+            return win1252ReplacementCount < utf8ReplacementCount ? win1252Text : utf8Text;
+        }
+
+        function parseSemicolonCsvLine(line) {
+            const columns = [];
+            let current = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < line.length; i++) {
+                const ch = line[i];
+
+                if (ch === '"') {
+                    if (inQuotes && line[i + 1] === '"') {
+                        current += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                    continue;
+                }
+
+                if (ch === ';' && !inQuotes) {
+                    columns.push(current.trim());
+                    current = '';
+                    continue;
+                }
+
+                current += ch;
+            }
+
+            columns.push(current.trim());
+            return columns;
+        }
+
         function parseQuestionsCsv(csvText) {
             const lines = String(csvText || '').split(/\r?\n/);
             const result = [];
@@ -204,9 +253,7 @@
                 const rawLine = lines[i].trim();
                 if (!rawLine || rawLine.startsWith('#')) continue;
 
-                const columns = rawLine.split(';').map(function(part) {
-                    return part.trim().replace(/^"|"$/g, '');
-                });
+                const columns = parseSemicolonCsvLine(rawLine);
 
                 const firstColumn = columns[0] || '';
                 const secondColumn = columns[1] || '';
@@ -246,41 +293,7 @@
             return result;
         }
 
-        function buildCountryIndex(features) {
-            const index = new Map();
-
-            for (const feature of features) {
-                const props = feature && feature.properties ? feature.properties : {};
-                const aliases = [
-                    props.ADMIN,
-                    props.NAME,
-                    props.name,
-                    props.BRK_NAME,
-                    props.NAME_LONG,
-                    props.FORMAL_EN,
-                    props.SOVEREIGNT
-                ].filter(Boolean);
-
-                for (const alias of aliases) {
-                    const key = normalizeCountryName(alias);
-                    if (key && !index.has(key)) {
-                        index.set(key, feature);
-                    }
-                }
-            }
-
-            return index;
-        }
-
-        async function loadCountryPoolFromCsv(countryIndex, fallbackCountries) {
-            const response = await fetch('questions.csv', { cache: 'no-store' });
-            if (!response.ok) {
-                throw new Error('File questions.csv non trovato o non leggibile');
-            }
-
-            const csvText = await response.text();
-            const csvEntries = parseQuestionsCsv(csvText);
-
+        function mapCsvEntriesToTargetItems(csvEntries, countryIndex) {
             if (!csvEntries.length) {
                 throw new Error('questions.csv e vuoto o non contiene stati validi');
             }
@@ -313,6 +326,43 @@
                 items: items,
                 missing: missing
             };
+        }
+
+        function buildCountryIndex(features) {
+            const index = new Map();
+
+            for (const feature of features) {
+                const props = feature && feature.properties ? feature.properties : {};
+                const aliases = [
+                    props.ADMIN,
+                    props.NAME,
+                    props.name,
+                    props.BRK_NAME,
+                    props.NAME_LONG,
+                    props.FORMAL_EN,
+                    props.SOVEREIGNT
+                ].filter(Boolean);
+
+                for (const alias of aliases) {
+                    const key = normalizeCountryName(alias);
+                    if (key && !index.has(key)) {
+                        index.set(key, feature);
+                    }
+                }
+            }
+
+            return index;
+        }
+
+        async function loadCountryPoolFromCsv(countryIndex) {
+            const response = await fetch('questions.csv', { cache: 'no-store' });
+            if (!response.ok) {
+                throw new Error('File questions.csv non trovato o non leggibile');
+            }
+
+            const csvText = decodeCsvBytes(await response.arrayBuffer());
+            const csvEntries = parseQuestionsCsv(csvText);
+            return mapCsvEntriesToTargetItems(csvEntries, countryIndex);
         }
 
         function createModalController() {
@@ -360,21 +410,24 @@
             const selectEl = document.getElementById('country-select');
             const setCountryButton = document.getElementById('set-country');
             const randomCountryButton = document.getElementById('random-country');
+            const loadQuestionsButton = document.getElementById('load-questions-file');
+            const questionsFileInput = document.getElementById('questions-file-input');
             const modal = createModalController();
             statusEl.innerText = "⏳ Caricamento confini degli Stati...";
             statusEl.style.color = "blue";
+
+            if (loadQuestionsButton) {
+                loadQuestionsButton.style.display = window.location.protocol === 'file:' ? 'inline-block' : 'none';
+            }
             
             const map = L.map('map').setView([20, 0], 2);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap'
-            }).addTo(map);
 
             let countries = [];
             let targetItems = [];
             let targetFeature = null;
             let targetCenter = null;
             let randomMode = true;
+            let countryIndex = new Map();
 
             function updateStatusWithTarget(prefix) {
                 const targetName = targetFeature ? getCountryName(targetFeature) : '?';
@@ -427,9 +480,9 @@
             }
 
             try {
-                const response = await fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson');
+                const response = await fetch('countries.geojson', { cache: 'no-store' });
                 if (!response.ok) {
-                    throw new Error('Impossibile scaricare i confini degli Stati');
+                    throw new Error('Impossibile leggere countries.geojson');
                 }
 
                 const geojson = await response.json();
@@ -438,13 +491,26 @@
                     return type === 'Polygon' || type === 'MultiPolygon';
                 });
 
+                const countryBorders = L.geoJSON(geojson, {
+                    style: {
+                        color: '#6b7280',
+                        weight: 1,
+                        fillOpacity: 0.05
+                    }
+                }).addTo(map);
+                map.fitBounds(countryBorders.getBounds(), { padding: [8, 8] });
+
                 if (!countries.length) {
                     throw new Error('Nessun confine valido disponibile');
                 }
 
-                const countryIndex = buildCountryIndex(countries);
+                countryIndex = buildCountryIndex(countries);
                 try {
-                    const csvResult = await loadCountryPoolFromCsv(countryIndex, countries);
+                    if (window.location.protocol === 'file:') {
+                        throw new Error('Esecuzione da file locale (file://): fetch del CSV bloccato dal browser');
+                    }
+
+                    const csvResult = await loadCountryPoolFromCsv(countryIndex);
                     targetItems = csvResult.items;
                     if (csvInfoEl) {
                         csvInfoEl.innerText = "Lista attiva: questions.csv (" + targetItems.length + " stati caricati)";
@@ -459,6 +525,21 @@
                         );
                     }
                 } catch (csvError) {
+                    if (window.location.protocol === 'file:') {
+                        if (csvInfoEl) {
+                            csvInfoEl.innerText = "file:// rilevato: usa il pulsante Carica questions.csv oppure avvia un server locale.";
+                        }
+                        modal.showModal(
+                            "Caricamento CSV bloccato",
+                            "Il browser blocca fetch di questions.csv quando apri la pagina con file://.\n" +
+                            "Soluzioni:\n" +
+                            "1) Avvia un server locale (es. Live Server)\n" +
+                            "2) Oppure usa il pulsante Carica questions.csv"
+                        );
+                        refreshCountrySelect();
+                        return;
+                    }
+
                     targetItems = countries.map(function(feature, index) {
                         return {
                             id: String(index + 1),
@@ -479,9 +560,52 @@
                 refreshCountrySelect();
                 setRandomTarget();
             } catch (error) {
-                statusEl.innerHTML = "❌ Errore nel caricamento dei confini.<br>Apri la pagina con Live Server e verifica la connessione Internet.";
+                statusEl.innerHTML = "❌ Errore nel caricamento dei confini locali.<br>Verifica che countries.geojson sia nella stessa cartella e apri la pagina via server locale (http://localhost:PORT).";
                 statusEl.style.color = "red";
+                modal.showModal(
+                    "Errore confini locali",
+                    "Non riesco a caricare countries.geojson.\n" +
+                    "Dettaglio: " + error.message + "\n" +
+                    "Controlla che il file esista nella cartella del progetto e avvia la pagina con un server locale."
+                );
                 return;
+            }
+
+            if (loadQuestionsButton && questionsFileInput) {
+                loadQuestionsButton.addEventListener('click', function() {
+                    questionsFileInput.click();
+                });
+
+                questionsFileInput.addEventListener('change', async function() {
+                    const selectedFile = questionsFileInput.files && questionsFileInput.files[0];
+                    if (!selectedFile) return;
+
+                    try {
+                        const csvText = decodeCsvBytes(await selectedFile.arrayBuffer());
+                        const csvEntries = parseQuestionsCsv(csvText);
+                        const csvResult = mapCsvEntriesToTargetItems(csvEntries, countryIndex);
+
+                        targetItems = csvResult.items;
+                        refreshCountrySelect();
+                        setRandomTarget();
+
+                        if (csvResult.missing.length) {
+                            const preview = csvResult.missing.slice(0, 8).join(', ');
+                            const suffix = csvResult.missing.length > 8 ? '...' : '';
+                            modal.showModal(
+                                'CSV parziale',
+                                'Alcuni nomi nel CSV non corrispondono al dataset:\n' + preview + suffix
+                            );
+                        }
+                    } catch (error) {
+                        modal.showModal(
+                            'Errore CSV',
+                            'Non riesco a leggere questions.csv selezionato.\nDettaglio: ' + error.message
+                        );
+                    } finally {
+                        questionsFileInput.value = '';
+                    }
+                });
             }
 
             setCountryButton.addEventListener('click', function() {

@@ -48,7 +48,7 @@
             font-size: 0.92rem;
         }
         #map { height: 700px; width: 80%; margin: 20px auto; border: 2px solid #333; background: #ddd; }
-        #status { font-weight: bold; color: blue; }
+        #status { font-weight: bold; color: blue; display: none; }
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -101,14 +101,14 @@
     <h1>📍 Quiz Geografico</h1>
     <div id="status">Inizializzazione in corso...</div>
     <div class="controls">
-        <label for="country-select">Numero dalla lista CSV:</label>
+        <label for="country-select">Domanda:</label>
         <select id="country-select" disabled>
             <option>Caricamento lista...</option>
         </select>
         <button id="set-country" type="button" disabled>Imposta stato</button>
         <button id="random-country" type="button" disabled>Random</button>
     </div>
-    <div id="csv-info">File lista: country-list.csv</div>
+   <!-- <div id="csv-info">File lista: country-list.csv</div> -->
     <div id="map"></div>
     <div id="game-modal" class="modal-overlay" aria-hidden="true">
         <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -210,6 +210,7 @@
 
                 const firstColumn = columns[0] || '';
                 const secondColumn = columns[1] || '';
+                const thirdColumn = columns.length > 2 ? columns.slice(2).join(',').trim() : '';
 
                 const firstNormalized = normalizeCountryName(firstColumn);
                 const secondNormalized = normalizeCountryName(secondColumn);
@@ -233,7 +234,12 @@
 
                 if (!seen.has(normalized)) {
                     seen.add(normalized);
-                    result.push({ id: id, raw: countryName, key: normalized });
+                    result.push({
+                        id: id,
+                        raw: countryName,
+                        key: normalized,
+                        question: thirdColumn || ('Trova lo Stato: ' + countryName)
+                    });
                 }
             }
 
@@ -293,6 +299,7 @@
                     seenFeatures.add(matched);
                     items.push({
                         id: entry.id,
+                        question: entry.question,
                         feature: matched
                     });
                 }
@@ -371,7 +378,8 @@
 
             function updateStatusWithTarget(prefix) {
                 const targetName = targetFeature ? getCountryName(targetFeature) : '?';
-                statusEl.innerText = prefix + " [" + targetName + "]";
+                statusEl.innerText = prefix ;
+                /*statusEl.innerText = prefix + " [" + targetName + "]";*/
                 statusEl.style.color = "blue";
             }
 
@@ -396,7 +404,7 @@
                     const item = targetItems[i];
                     const option = document.createElement('option');
                     option.value = String(i);
-                    option.textContent = item.id;
+                    option.textContent = item.id + ' - ' + (item.question || ('Trova lo Stato: ' + getCountryName(item.feature)));
                     selectEl.appendChild(option);
                 }
 
@@ -438,7 +446,7 @@
                 try {
                     const csvResult = await loadCountryPoolFromCsv(countryIndex, countries);
                     targetItems = csvResult.items;
-                    csvInfoEl.innerText = "Lista attiva: country-list.csv (" + targetItems.length + " stati caricati)";
+                    /*csvInfoEl.innerText = "Lista attiva: country-list.csv (" + targetItems.length + " stati caricati)";*/
 
                     if (csvResult.missing.length) {
                         const preview = csvResult.missing.slice(0, 8).join(', ');
@@ -452,6 +460,7 @@
                     targetItems = countries.map(function(feature, index) {
                         return {
                             id: String(index + 1),
+                            question: 'Trova lo Stato: ' + getCountryName(feature),
                             feature: feature
                         };
                     });

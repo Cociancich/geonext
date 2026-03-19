@@ -7,6 +7,46 @@
     <link rel="stylesheet" href="leaflet.css" />
     <style>
         body { font-family: sans-serif; text-align: center; background: #f4f4f4; }
+        .controls {
+            width: 80%;
+            margin: 12px auto 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .controls label {
+            font-weight: 600;
+            color: #1f1f1f;
+        }
+        .controls select,
+        .controls button {
+            border: 1px solid #b5b5b5;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+        }
+        .controls button {
+            background: #2a7bd6;
+            color: #fff;
+            border-color: #2a7bd6;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background: #2168b5;
+        }
+        .controls button:disabled,
+        .controls select:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+        #csv-info {
+            width: 80%;
+            margin: 8px auto 0;
+            color: #444;
+            font-size: 0.92rem;
+        }
         #map { height: 700px; width: 80%; margin: 20px auto; border: 2px solid #333; background: #ddd; }
         #status { font-weight: bold; color: blue; }
         .modal-overlay {
@@ -60,6 +100,15 @@
 
     <h1>📍 Quiz Geografico</h1>
     <div id="status">Inizializzazione in corso...</div>
+    <div class="controls">
+        <label for="country-select">Numero dalla lista CSV:</label>
+        <select id="country-select" disabled>
+            <option>Caricamento lista...</option>
+        </select>
+        <button id="set-country" type="button" disabled>Imposta stato</button>
+        <button id="random-country" type="button" disabled>Random</button>
+    </div>
+    <div id="csv-info">File lista: country-list.csv</div>
     <div id="map"></div>
     <div id="game-modal" class="modal-overlay" aria-hidden="true">
         <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -135,6 +184,130 @@
             return props.ADMIN || props.NAME || props.name || 'Stato sconosciuto';
         }
 
+        function normalizeCountryName(name) {
+            if (!name) return '';
+            return String(name)
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, ' ')
+                .trim();
+        }
+
+        function parseCountryCsv(csvText) {
+            const lines = String(csvText || '').split(/\r?\n/);
+            const result = [];
+            const seen = new Set();
+            let fallbackId = 1;
+
+            for (let i = 0; i < lines.length; i++) {
+                const rawLine = lines[i].trim();
+                if (!rawLine || rawLine.startsWith('#')) continue;
+
+                const columns = rawLine.split(/[;,]/).map(function(part) {
+                    return part.trim().replace(/^"|"$/g, '');
+                });
+
+                const firstColumn = columns[0] || '';
+                const secondColumn = columns[1] || '';
+
+                const firstNormalized = normalizeCountryName(firstColumn);
+                const secondNormalized = normalizeCountryName(secondColumn);
+
+                // Salta eventuale header CSV (id,country oppure varianti)
+                if (
+                    i === 0 &&
+                    ((firstNormalized === 'id' || firstNormalized === 'numero' || firstNormalized === 'num') &&
+                        (secondNormalized === 'country' || secondNormalized === 'countries' || secondNormalized === 'name' || secondNormalized === 'stato' || secondNormalized === 'stati'))
+                ) {
+                    continue;
+                }
+
+                const hasNumericFirst = /^\d+$/.test(firstColumn);
+                const countryName = hasNumericFirst && secondColumn ? secondColumn : firstColumn;
+                const id = hasNumericFirst ? firstColumn : String(fallbackId++);
+                if (!countryName) continue;
+
+                const normalized = normalizeCountryName(countryName);
+                if (!normalized) continue;
+
+                if (!seen.has(normalized)) {
+                    seen.add(normalized);
+                    result.push({ id: id, raw: countryName, key: normalized });
+                }
+            }
+
+            return result;
+        }
+
+        function buildCountryIndex(features) {
+            const index = new Map();
+
+            for (const feature of features) {
+                const props = feature && feature.properties ? feature.properties : {};
+                const aliases = [
+                    props.ADMIN,
+                    props.NAME,
+                    props.name,
+                    props.BRK_NAME,
+                    props.NAME_LONG,
+                    props.FORMAL_EN,
+                    props.SOVEREIGNT
+                ].filter(Boolean);
+
+                for (const alias of aliases) {
+                    const key = normalizeCountryName(alias);
+                    if (key && !index.has(key)) {
+                        index.set(key, feature);
+                    }
+                }
+            }
+
+            return index;
+        }
+
+        async function loadCountryPoolFromCsv(countryIndex, fallbackCountries) {
+            const response = await fetch('country-list.csv', { cache: 'no-store' });
+            if (!response.ok) {
+                throw new Error('File country-list.csv non trovato o non leggibile');
+            }
+
+            const csvText = await response.text();
+            const csvEntries = parseCountryCsv(csvText);
+
+            if (!csvEntries.length) {
+                throw new Error('country-list.csv e vuoto o non contiene stati validi');
+            }
+
+            const items = [];
+            const missing = [];
+            const seenFeatures = new Set();
+
+            for (const entry of csvEntries) {
+                const matched = countryIndex.get(entry.key);
+                if (!matched) {
+                    missing.push(entry.raw);
+                    continue;
+                }
+                if (!seenFeatures.has(matched)) {
+                    seenFeatures.add(matched);
+                    items.push({
+                        id: entry.id,
+                        feature: matched
+                    });
+                }
+            }
+
+            if (!items.length) {
+                throw new Error('Nessuno Stato del CSV coincide con il GeoJSON caricato');
+            }
+
+            return {
+                items: items,
+                missing: missing
+            };
+        }
+
         function createModalController() {
             const overlay = document.getElementById('game-modal');
             const titleEl = document.getElementById('modal-title');
@@ -176,6 +349,10 @@
             }
 
             const statusEl = document.getElementById('status');
+            const csvInfoEl = document.getElementById('csv-info');
+            const selectEl = document.getElementById('country-select');
+            const setCountryButton = document.getElementById('set-country');
+            const randomCountryButton = document.getElementById('random-country');
             const modal = createModalController();
             statusEl.innerText = "⏳ Caricamento confini degli Stati...";
             statusEl.style.color = "blue";
@@ -187,23 +364,58 @@
             }).addTo(map);
 
             let countries = [];
+            let targetItems = [];
             let targetFeature = null;
             let targetCenter = null;
+            let randomMode = true;
+
+            function updateStatusWithTarget(prefix) {
+                const targetName = targetFeature ? getCountryName(targetFeature) : '?';
+                statusEl.innerText = prefix + " [" + targetName + "]";
+                statusEl.style.color = "blue";
+            }
+
+            function setTarget(feature, sourceLabel) {
+                if (!feature) return;
+
+                targetFeature = feature;
+                targetCenter = L.geoJSON(targetFeature).getBounds().getCenter();
+                updateStatusWithTarget("🎯 " + sourceLabel + ":");
+
+                const selectedIndex = targetItems.findIndex(function(item) {
+                    return item.feature === feature;
+                });
+                if (selectedIndex >= 0) {
+                    selectEl.value = String(selectedIndex);
+                }
+            }
+
+            function refreshCountrySelect() {
+                selectEl.innerHTML = '';
+                for (let i = 0; i < targetItems.length; i++) {
+                    const item = targetItems[i];
+                    const option = document.createElement('option');
+                    option.value = String(i);
+                    option.textContent = item.id;
+                    selectEl.appendChild(option);
+                }
+
+                selectEl.disabled = targetItems.length === 0;
+                setCountryButton.disabled = targetItems.length === 0;
+                randomCountryButton.disabled = targetItems.length === 0;
+            }
 
             function setRandomTarget() {
-                if (!countries.length) return;
+                if (!targetItems.length) return;
 
-                let next = countries[Math.floor(Math.random() * countries.length)];
-                if (countries.length > 1 && targetFeature) {
-                    while (next === targetFeature) {
-                        next = countries[Math.floor(Math.random() * countries.length)];
+                let nextItem = targetItems[Math.floor(Math.random() * targetItems.length)];
+                if (targetItems.length > 1 && targetFeature) {
+                    while (nextItem.feature === targetFeature) {
+                        nextItem = targetItems[Math.floor(Math.random() * targetItems.length)];
                     }
                 }
 
-                targetFeature = next;
-                targetCenter = L.geoJSON(targetFeature).getBounds().getCenter();
-                statusEl.innerText = "🎯 Indovina lo Stato: [" + getCountryName(targetFeature) + "]";
-                statusEl.style.color = "blue";
+                setTarget(nextItem.feature, "Indovina lo Stato");
             }
 
             try {
@@ -222,12 +434,58 @@
                     throw new Error('Nessun confine valido disponibile');
                 }
 
+                const countryIndex = buildCountryIndex(countries);
+                try {
+                    const csvResult = await loadCountryPoolFromCsv(countryIndex, countries);
+                    targetItems = csvResult.items;
+                    csvInfoEl.innerText = "Lista attiva: country-list.csv (" + targetItems.length + " stati caricati)";
+
+                    if (csvResult.missing.length) {
+                        const preview = csvResult.missing.slice(0, 8).join(', ');
+                        const suffix = csvResult.missing.length > 8 ? "..." : "";
+                        modal.showModal(
+                            "CSV parziale",
+                            "Alcuni nomi nel CSV non corrispondono al dataset:\n" + preview + suffix
+                        );
+                    }
+                } catch (csvError) {
+                    targetItems = countries.map(function(feature, index) {
+                        return {
+                            id: String(index + 1),
+                            feature: feature
+                        };
+                    });
+                    csvInfoEl.innerText = "CSV non disponibile: uso tutti gli Stati del dataset.";
+                    modal.showModal(
+                        "Avviso CSV",
+                        "Non sono riuscito a usare country-list.csv.\nDettaglio: " + csvError.message +
+                        "\nUso automaticamente tutti gli Stati disponibili."
+                    );
+                }
+
+                refreshCountrySelect();
                 setRandomTarget();
             } catch (error) {
                 statusEl.innerHTML = "❌ Errore nel caricamento dei confini.<br>Apri la pagina con Live Server e verifica la connessione Internet.";
                 statusEl.style.color = "red";
                 return;
             }
+
+            setCountryButton.addEventListener('click', function() {
+                const selectedIndex = Number(selectEl.value);
+                if (!Number.isInteger(selectedIndex) || selectedIndex < 0 || selectedIndex >= targetItems.length) {
+                    return;
+                }
+
+                randomMode = false;
+                const selectedFeature = targetItems[selectedIndex].feature;
+                setTarget(selectedFeature, "Stato scelto da CSV");
+            });
+
+            randomCountryButton.addEventListener('click', function() {
+                randomMode = true;
+                setRandomTarget();
+            });
 
             map.on('click', function(e) {
                 if (!targetFeature) return;
@@ -240,7 +498,11 @@
                         "Risultato",
                         "✅ Corretto! Hai cliccato dentro i confini di " + getCountryName(targetFeature) + "."
                     );
-                    setRandomTarget();
+                    if (randomMode) {
+                        setRandomTarget();
+                    } else {
+                        updateStatusWithTarget("✅ Centrato. Puoi cambiare Stato da CSV oppure cliccare Random:");
+                    }
                     return;
                 }
 

@@ -118,6 +118,16 @@
             font-weight: 600;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
         }
+        .footer-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .footer-row + .footer-row {
+            margin-top: 10px;
+        }
         .footer-label {
             margin-right: 14px;
         }
@@ -132,6 +142,10 @@
             width: 28px;
             height: 28px;
             display: inline-block;
+        }
+        #timer-value {
+            color: #1f2937;
+            font-weight: 700;
         }
         #map { height: 600px; width: 80%; margin: 20px auto; border: 2px solid #333; background: #9fd8ff; }
         #status { font-weight: bold; color: blue; display: none; }
@@ -197,7 +211,14 @@
     <div id="question-display" aria-live="polite"></div>
     <!-- <div id="csv-info">File lista: questions.csv</div> -->
     <div id="map"></div>
-    <footer id="game-footer"><span class="footer-label">Tentativi residui:</span><span class="brain-strip" aria-live="polite" aria-label="Tentativi residui: 5"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"></span></footer>
+    <footer id="game-footer">
+        <div class="footer-row">
+            <span class="footer-label">Tempo residuo:</span>
+            <span id="timer-value" aria-live="polite">60s</span>
+            <span class="footer-label">Tentativi residui:</span>
+            <span id="attempts-strip" class="brain-strip" aria-live="polite" aria-label="Tentativi residui: 5"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"></span>
+        </div>
+    </footer>
     <div id="game-modal" class="modal-overlay" aria-hidden="true">
         <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <h2 id="modal-title">Geo-Guessr NEXT</h2>
@@ -558,22 +579,80 @@
             let targetCenter = null;
             let targetAttempts = 0;
             const maxTargetAttempts = 5;
+            const maxTargetSeconds = 60;
+            let targetTimerSecondsLeft = maxTargetSeconds;
+            let targetTimerId = null;
             let randomMode = true;
             let countryIndex = new Map();
             const footerEl = document.getElementById('game-footer');
+            const attemptsStripEl = document.getElementById('attempts-strip');
+            const timerValueEl = document.getElementById('timer-value');
             const brainImageSrc = 'cervello.png';
 
             function updateFooterAttempts() {
-                if (!footerEl) return;
+                if (!attemptsStripEl) return;
 
                 const remainingAttempts = Math.max(maxTargetAttempts - targetAttempts, 0);
-                footerEl.innerHTML =
-                    '<span class="footer-label">Tentativi residui:</span>' +
-                    '<span class="brain-strip" aria-live="polite" aria-label="Tentativi residui: ' + remainingAttempts + '">' +
-                    Array.from({ length: remainingAttempts }, function () {
-                        return '<img class="brain-icon" src="' + brainImageSrc + '" alt="" aria-hidden="true">';
-                    }).join('') +
-                    '</span>';
+                attemptsStripEl.innerHTML = Array.from({ length: remainingAttempts }, function () {
+                    return '<img class="brain-icon" src="' + brainImageSrc + '" alt="" aria-hidden="true">';
+                }).join('');
+                attemptsStripEl.setAttribute('aria-label', 'Tentativi residui: ' + remainingAttempts);
+            }
+
+            function updateTimerDisplay() {
+                if (!timerValueEl) return;
+
+                timerValueEl.innerText = targetTimerSecondsLeft + 's';
+            }
+
+            function stopTargetTimer() {
+                if (targetTimerId !== null) {
+                    window.clearInterval(targetTimerId);
+                    targetTimerId = null;
+                }
+            }
+
+            function handleTimerExpired() {
+                if (!targetFeature || targetAttempts >= maxTargetAttempts) return;
+
+                targetAttempts++;
+                updateFooterAttempts();
+                renderQuestionDisplay();
+
+                if (targetAttempts >= maxTargetAttempts) {
+                    modal.showModal(
+                        'Tempo scaduto',
+                        'Il tempo è scaduto e hai consumato l’ultimo tentativo disponibile.'
+                    );
+                    stopTargetTimer();
+                    return;
+                }
+
+                modal.showModal(
+                    'Tempo scaduto',
+                    'Il tempo è scaduto e hai perso un tentativo.'
+                );
+                startTargetTimer();
+            }
+
+            function startTargetTimer() {
+                stopTargetTimer();
+                targetTimerSecondsLeft = maxTargetSeconds;
+                updateTimerDisplay();
+
+                if (!targetFeature || targetAttempts >= maxTargetAttempts) return;
+
+                targetTimerId = window.setInterval(function() {
+                    targetTimerSecondsLeft -= 1;
+                    if (targetTimerSecondsLeft <= 0) {
+                        updateTimerDisplay();
+                        stopTargetTimer();
+                        handleTimerExpired();
+                        return;
+                    }
+
+                    updateTimerDisplay();
+                }, 1000);
             }
 
             function updateStatusWithTarget(prefix) {
@@ -628,6 +707,7 @@
                 }) || null;
                 updateStatusWithTarget("🎯 " + sourceLabel + ":");
                 updateFooterAttempts();
+                startTargetTimer();
                 renderQuestionDisplay();
 
                 if (countryNumberInput) {
@@ -844,6 +924,7 @@
                 if (!targetFeature) return;
 
                 if (targetAttempts >= maxTargetAttempts) {
+                    stopTargetTimer();
                     modal.showModal(
                         "Risultato",
                         "⚠️ Tentativi esauriti per questo Stato." +
@@ -854,6 +935,7 @@
 
                 targetAttempts++;
                 updateFooterAttempts();
+                startTargetTimer();
                 renderQuestionDisplay();
                 const point = [e.latlng.lng, e.latlng.lat];
                 const correct = isPointInGeometry(point, targetFeature.geometry);
@@ -871,6 +953,7 @@
                     } else {
                         updateStatusWithTarget("✅ Centrato. Puoi cambiare Stato da CSV oppure cliccare Random:");
                     }
+                    startTargetTimer();
                     updateFooterAttempts();
                     return;
                 }

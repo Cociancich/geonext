@@ -123,7 +123,7 @@
             <option>Caricamento lista...</option>
         </select>
         <button id="random-country" type="button" disabled>Random</button>
-        <button id="load-questions-file" type="button">Carica questions.csv</button>
+        <button id="load-questions-file" type="button">Carica Stati_2026.csv</button>
         <input id="questions-file-input" type="file" accept=".csv,text/csv" hidden />
     </div>
     <div id="question-display"></div>
@@ -271,35 +271,42 @@
 
                 const firstColumn = columns[0] || '';
                 const secondColumn = columns[1] || '';
-                const thirdColumn = columns.length > 2 ? columns.slice(2).join(';').trim() : '';
+                const thirdColumn = columns[2] || '';
+                const areaColumn = columns[3] || '';
+                const populationColumn = columns[4] || '';
+                const surfaceColumn = columns[5] || '';
 
                 const firstNormalized = normalizeCountryName(firstColumn);
                 const secondNormalized = normalizeCountryName(secondColumn);
 
-                // Salta eventuale header CSV (id;country;question oppure varianti)
+                // Salta eventuale header CSV (id;iso;question oppure varianti)
                 if (
                     i === 0 &&
                     ((firstNormalized === 'id' || firstNormalized === 'numero' || firstNormalized === 'num') &&
-                        (secondNormalized === 'country' || secondNormalized === 'countries' || secondNormalized === 'name' || secondNormalized === 'stato' || secondNormalized === 'stati'))
+                        (secondNormalized === 'iso' || secondNormalized === 'country' || secondNormalized === 'countries' || secondNormalized === 'name' || secondNormalized === 'stato' || secondNormalized === 'stati'))
                 ) {
                     continue;
                 }
 
                 const hasNumericFirst = /^\d+$/.test(firstColumn);
-                const countryName = hasNumericFirst && secondColumn ? secondColumn : firstColumn;
+                const countryName = secondColumn || firstColumn;
+                const isoCode = thirdColumn || (hasNumericFirst && secondColumn ? secondColumn : firstColumn);
                 const id = hasNumericFirst ? firstColumn : String(fallbackId++);
-                if (!countryName) continue;
+                if (!isoCode) continue;
 
-                const normalized = normalizeCountryName(countryName);
+                const normalized = normalizeCountryName(isoCode);
                 if (!normalized) continue;
 
                 if (!seen.has(normalized)) {
                     seen.add(normalized);
                     result.push({
                         id: id,
-                        raw: countryName,
+                        raw: isoCode,
                         key: normalized,
-                        question: thirdColumn || ('Trova lo Stato: ' + countryName)
+                        countryName: countryName,
+                        area: areaColumn,
+                        population: populationColumn,
+                        surface: surfaceColumn
                     });
                 }
             }
@@ -309,7 +316,7 @@
 
         function mapCsvEntriesToTargetItems(csvEntries, countryIndex) {
             if (!csvEntries.length) {
-                throw new Error('questions.csv e vuoto o non contiene stati validi');
+                throw new Error('Stati_2026.csv e vuoto o non contiene stati validi');
             }
 
             const items = [];
@@ -326,8 +333,11 @@
                     seenFeatures.add(matched);
                     items.push({
                         id: entry.id,
-                        question: entry.question,
-                        feature: matched
+                        feature: matched,
+                        countryName: entry.countryName,
+                        area: entry.area,
+                        population: entry.population,
+                        surface: entry.surface
                     });
                 }
             }
@@ -348,6 +358,15 @@
             for (const feature of features) {
                 const props = feature && feature.properties ? feature.properties : {};
                 const aliases = [
+                    props.ISO,
+                    props.iso,
+                    props['ISO3166-1-Alpha-3'],
+                    props['ISO3166-1-Alpha-2'],
+                    props.ISO_A3,
+                    props.ADM0_A3,
+                    props.SOV_A3,
+                    props.HS_A3,
+                    props.TINY,
                     props.ADMIN,
                     props.NAME,
                     props.name,
@@ -369,9 +388,9 @@
         }
 
         async function loadCountryPoolFromCsv(countryIndex) {
-            const response = await fetch('questions.csv', { cache: 'no-store' });
+            const response = await fetch('Stati_2026.csv', { cache: 'no-store' });
             if (!response.ok) {
-                throw new Error('File questions.csv non trovato o non leggibile');
+                throw new Error('File Stati_2026.csv non trovato o non leggibile');
             }
 
             const csvText = decodeCsvBytes(await response.arrayBuffer());
@@ -490,7 +509,10 @@
                 }
 
                 const selectedItem = targetItems[selectedIndex];
-                questionDisplayEl.innerText = selectedItem.question || ('Trova lo Stato: ' + getCountryName(selectedItem.feature));
+                questionDisplayEl.innerText =
+                    'Area geografica: ' + (selectedItem.area || 'n/d') + '\n' +
+                    'popolazione (milioni): ' + (selectedItem.population || 'n/d') + '\n' +
+                    'superficie (km2): ' + (selectedItem.surface || 'n/d');
                 questionDisplayEl.classList.add('active');
                 
                 // Auto-set the target when selected from dropdown
@@ -546,7 +568,7 @@
                     const csvResult = await loadCountryPoolFromCsv(countryIndex);
                     targetItems = csvResult.items;
                     if (csvInfoEl) {
-                        csvInfoEl.innerText = "Lista attiva: questions.csv (" + targetItems.length + " stati caricati)";
+                        csvInfoEl.innerText = "Lista attiva: Stati_2026.csv (" + targetItems.length + " stati caricati)";
                     }
 
                     if (csvResult.missing.length) {
@@ -560,14 +582,14 @@
                 } catch (csvError) {
                     if (window.location.protocol === 'file:') {
                         if (csvInfoEl) {
-                            csvInfoEl.innerText = "file:// rilevato: usa il pulsante Carica questions.csv oppure avvia un server locale.";
+                            csvInfoEl.innerText = "file:// rilevato: usa il pulsante Carica Stati_2026.csv oppure avvia un server locale.";
                         }
                         modal.showModal(
                             "Caricamento CSV bloccato",
-                            "Il browser blocca fetch di questions.csv quando apri la pagina con file://.\n" +
+                            "Il browser blocca fetch di Stati_2026.csv quando apri la pagina con file://.\n" +
                             "Soluzioni:\n" +
                             "1) Avvia un server locale (es. Live Server)\n" +
-                            "2) Oppure usa il pulsante Carica questions.csv"
+                            "2) Oppure usa il pulsante Carica Stati_2026.csv"
                         );
                         refreshCountrySelect();
                         return;
@@ -585,7 +607,7 @@
                     }
                     modal.showModal(
                         "Avviso CSV",
-                        "Non sono riuscito a usare questions.csv.\nDettaglio: " + csvError.message +
+                        "Non sono riuscito a usare Stati_2026.csv.\nDettaglio: " + csvError.message +
                         "\nUso automaticamente tutti gli Stati disponibili."
                     );
                 }

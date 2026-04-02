@@ -64,6 +64,18 @@
             color: #444;
             font-size: 0.92rem;
         }
+        #game-footer {
+            width: 80%;
+            margin: 12px auto 20px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: #ffffff;
+            border: 1px solid #d5d5d5;
+            color: #333;
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        }
         #map { height: 700px; width: 80%; margin: 20px auto; border: 2px solid #333; background: #9fd8ff; }
         #status { font-weight: bold; color: blue; display: none; }
         .modal-overlay {
@@ -129,6 +141,7 @@
     <div id="question-display"></div>
     <!-- <div id="csv-info">File lista: questions.csv</div> -->
     <div id="map"></div>
+    <footer id="game-footer">Tentativi residui: 5</footer>
     <div id="game-modal" class="modal-overlay" aria-hidden="true">
         <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <h2 id="modal-title">Geo-Guessr NEXT</h2>
@@ -458,8 +471,18 @@
             let targetItems = [];
             let targetFeature = null;
             let targetCenter = null;
+            let targetAttempts = 0;
+            const maxTargetAttempts = 5;
             let randomMode = true;
             let countryIndex = new Map();
+            const footerEl = document.getElementById('game-footer');
+
+            function updateFooterAttempts() {
+                if (!footerEl) return;
+
+                const remainingAttempts = Math.max(maxTargetAttempts - targetAttempts, 0);
+                footerEl.innerText = 'Tentativi residui: ' + remainingAttempts + ' / ' + maxTargetAttempts;
+            }
 
             function updateStatusWithTarget(prefix) {
                 const targetName = targetFeature ? getCountryName(targetFeature) : '?';
@@ -473,7 +496,9 @@
 
                 targetFeature = feature;
                 targetCenter = L.geoJSON(targetFeature).getBounds().getCenter();
+                targetAttempts = 0;
                 updateStatusWithTarget("🎯 " + sourceLabel + ":");
+                updateFooterAttempts();
 
                 const selectedIndex = targetItems.findIndex(function(item) {
                     return item.feature === feature;
@@ -673,19 +698,34 @@
             map.on('click', function(e) {
                 if (!targetFeature) return;
 
+                if (targetAttempts >= maxTargetAttempts) {
+                    modal.showModal(
+                        "Risultato",
+                        "⚠️ Tentativi esauriti per questo Stato." +
+                        "\nI tentativi disponibili erano " + maxTargetAttempts + "."
+                    );
+                    return;
+                }
+
+                targetAttempts++;
+                updateFooterAttempts();
                 const point = [e.latlng.lng, e.latlng.lat];
                 const correct = isPointInGeometry(point, targetFeature.geometry);
 
                 if (correct) {
+                    const wrongAttempts = Math.max(targetAttempts - 1, 0);
                     modal.showModal(
                         "Risultato",
-                        "✅ Corretto! Hai cliccato dentro i confini di " + getCountryName(targetFeature) + "."
+                        "✅ Corretto! Hai cliccato dentro i confini di " + getCountryName(targetFeature) + "." +
+                        "\nTentativi utilizzati: " + targetAttempts + "." +
+                        (wrongAttempts > 0 ? "\nTentativi sbagliati prima della risposta esatta: " + wrongAttempts + "." : "")
                     );
                     if (randomMode) {
                         setRandomTarget();
                     } else {
                         updateStatusWithTarget("✅ Centrato. Puoi cambiare Stato da CSV oppure cliccare Random:");
                     }
+                    updateFooterAttempts();
                     return;
                 }
 
@@ -706,7 +746,8 @@
                     "Risultato",
                     "❌ Sbagliato. Hai cliccato in: " + where + "." +
                     "\nIndizio distanza dallo Stato corretto: circa " + distanceHintKm + " km." +
-                    "\nRiprova!"
+                    "\nTentativi residui: " + Math.max(maxTargetAttempts - targetAttempts, 0) + "." +
+                    (targetAttempts >= maxTargetAttempts ? "\nTentativi esauriti." : "\nRiprova!")
                 );
             });
         }

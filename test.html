@@ -20,6 +20,7 @@
             font-weight: 600;
             color: #1f1f1f;
         }
+        .controls input,
         .controls select,
         .controls button {
             border: 1px solid #b5b5b5;
@@ -37,6 +38,7 @@
             background: #2168b5;
         }
         .controls button:disabled,
+        .controls input:disabled,
         .controls select:disabled {
             opacity: 0.65;
             cursor: not-allowed;
@@ -44,19 +46,59 @@
         #load-questions-file {
             display: none;
         }
+        #country-number-input {
+            width: 120px;
+        }
         #question-display {
             width: 80%;
             margin: 12px auto;
-            padding: 12px;
-
-            color: #31074d;
-            font-size: 1.125rem;
-            line-height: 1.5;
-            min-height: 20px;
+            padding: 14px;
             display: none;
+            background: #ffffff;
+            border: 1px solid #d8d8d8;
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
         }
         #question-display.active {
             display: block;
+        }
+        .hint-grid {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 10px;
+        }
+        @media (max-width: 1280px) {
+            .hint-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+        @media (max-width: 900px) {
+            .hint-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        .hint-card {
+            border: 1px solid #e2e2e2;
+            border-radius: 12px;
+            background: #f8fafc;
+            padding: 12px 14px;
+            text-align: left;
+        }
+        .hint-label {
+            display: block;
+            color: #5b6472;
+            font-size: 0.84rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-bottom: 6px;
+        }
+        .hint-value {
+            display: block;
+            color: #1f2937;
+            font-size: 1.02rem;
+            font-weight: 600;
+            word-break: break-word;
         }
         #csv-info {
             width: 80%;
@@ -67,16 +109,31 @@
         #game-footer {
             width: 80%;
             margin: 12px auto 20px;
-            padding: 10px 14px;
-            border-radius: 10px;
+            padding: 16px 18px;
+            border-radius: 14px;
             background: #ffffff;
             border: 1px solid #d5d5d5;
             color: #333;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-weight: 600;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
         }
-        #map { height: 700px; width: 80%; margin: 20px auto; border: 2px solid #333; background: #9fd8ff; }
+        .footer-label {
+            margin-right: 14px;
+        }
+        .brain-strip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            vertical-align: middle;
+        }
+        .brain-icon {
+            width: 28px;
+            height: 28px;
+            display: inline-block;
+        }
+        #map { height: 600px; width: 80%; margin: 20px auto; border: 2px solid #333; background: #9fd8ff; }
         #status { font-weight: bold; color: blue; display: none; }
         .modal-overlay {
             position: fixed;
@@ -127,21 +184,20 @@
 </head>
 <body>
 
-    <h1>📍 Quiz Geografico</h1>
+    <h1>🎼 VA PENSIERO SULL'ALI DORATE 🎶</h1>
     <div id="status">Inizializzazione in corso...</div>
     <div class="controls">
-        <label for="country-select">Domanda:</label>
-        <select id="country-select" disabled>
-            <option>Caricamento lista...</option>
-        </select>
+        <label for="country-number-input">Domanda:</label>
+        <input id="country-number-input" type="number" min="1" step="1" inputmode="numeric" placeholder="1" disabled />
+        <button id="confirm-country" type="button" disabled>OK</button>
         <button id="random-country" type="button" disabled>Random</button>
         <button id="load-questions-file" type="button">Carica Stati_2026.csv</button>
         <input id="questions-file-input" type="file" accept=".csv,text/csv" hidden />
     </div>
-    <div id="question-display"></div>
+    <div id="question-display" aria-live="polite"></div>
     <!-- <div id="csv-info">File lista: questions.csv</div> -->
     <div id="map"></div>
-    <footer id="game-footer">Tentativi residui: 5</footer>
+    <footer id="game-footer"><span class="footer-label">Tentativi residui:</span><span class="brain-strip" aria-live="polite" aria-label="Tentativi residui: 5"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"></span></footer>
     <div id="game-modal" class="modal-overlay" aria-hidden="true">
         <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <h2 id="modal-title">Geo-Guessr NEXT</h2>
@@ -288,6 +344,15 @@
                 const areaColumn = columns[3] || '';
                 const populationColumn = columns[4] || '';
                 const surfaceColumn = columns[5] || '';
+                const pilColumn = columns[6] || '';
+                const pilProColumn = columns[7] || '';
+                const parityColumn = columns[8] || '';
+                const democracyColumn = columns[9] || '';
+                const womenParliamentColumn = columns[10] || '';
+                const pressColumn = columns[11] || '';
+                const corruptionColumn = columns[12] || '';
+                const businessColumn = columns[13] || '';
+                const workersColumn = columns[14] || '';
 
                 const firstNormalized = normalizeCountryName(firstColumn);
                 const secondNormalized = normalizeCountryName(secondColumn);
@@ -319,7 +384,16 @@
                         countryName: countryName,
                         area: areaColumn,
                         population: populationColumn,
-                        surface: surfaceColumn
+                        surface: surfaceColumn,
+                        pil: pilColumn,
+                        pilPro: pilProColumn,
+                        parity: parityColumn,
+                        democracy: democracyColumn,
+                        womenInParliament: womenParliamentColumn,
+                        press: pressColumn,
+                        corruption: corruptionColumn,
+                        business: businessColumn,
+                        workers: workersColumn
                     });
                 }
             }
@@ -350,7 +424,16 @@
                         countryName: entry.countryName,
                         area: entry.area,
                         population: entry.population,
-                        surface: entry.surface
+                        surface: entry.surface,
+                        pil: entry.pil,
+                        pilPro: entry.pilPro,
+                        parity: entry.parity,
+                        democracy: entry.democracy,
+                        womenInParliament: entry.womenInParliament,
+                        press: entry.press,
+                        corruption: entry.corruption,
+                        business: entry.business,
+                        workers: entry.workers
                     });
                 }
             }
@@ -453,7 +536,8 @@
 
             const statusEl = document.getElementById('status');
             const csvInfoEl = document.getElementById('csv-info');
-            const selectEl = document.getElementById('country-select');
+            const countryNumberInput = document.getElementById('country-number-input');
+            const confirmCountryButton = document.getElementById('confirm-country');
             const randomCountryButton = document.getElementById('random-country');
             const loadQuestionsButton = document.getElementById('load-questions-file');
             const questionsFileInput = document.getElementById('questions-file-input');
@@ -470,18 +554,26 @@
             let countries = [];
             let targetItems = [];
             let targetFeature = null;
+            let targetItem = null;
             let targetCenter = null;
             let targetAttempts = 0;
             const maxTargetAttempts = 5;
             let randomMode = true;
             let countryIndex = new Map();
             const footerEl = document.getElementById('game-footer');
+            const brainImageSrc = 'cervello.png';
 
             function updateFooterAttempts() {
                 if (!footerEl) return;
 
                 const remainingAttempts = Math.max(maxTargetAttempts - targetAttempts, 0);
-                footerEl.innerText = 'Tentativi residui: ' + remainingAttempts + ' / ' + maxTargetAttempts;
+                footerEl.innerHTML =
+                    '<span class="footer-label">Tentativi residui:</span>' +
+                    '<span class="brain-strip" aria-live="polite" aria-label="Tentativi residui: ' + remainingAttempts + '">' +
+                    Array.from({ length: remainingAttempts }, function () {
+                        return '<img class="brain-icon" src="' + brainImageSrc + '" alt="" aria-hidden="true">';
+                    }).join('') +
+                    '</span>';
             }
 
             function updateStatusWithTarget(prefix) {
@@ -491,56 +583,90 @@
                 statusEl.style.color = "blue";
             }
 
+            function renderQuestionDisplay() {
+                const questionDisplayEl = document.getElementById('question-display');
+                if (!questionDisplayEl) return;
+
+                if (!targetItem) {
+                    questionDisplayEl.classList.remove('active');
+                    questionDisplayEl.innerHTML = '';
+                    return;
+                }
+
+                const hintCards = [
+                    { label: 'Area geografica', value: targetItem.area || 'n/d' },
+                    { label: 'popolazione (milioni)', value: targetItem.population || 'n/d' },
+                    { label: 'superficie (km2)', value: targetItem.surface || 'n/d' },
+                    { label: 'PIL', value: targetAttempts >= 1 ? (targetItem.pil || 'n/d') : '---' },
+                    { label: 'PIL pro capite', value: targetAttempts >= 1 ? (targetItem.pilPro || 'n/d') : '---' },
+                    { label: 'parità di genere', value: targetAttempts >= 2 ? (targetItem.parity || 'n/d') : '---' },
+                    { label: 'democrazia', value: targetAttempts >= 2 ? (targetItem.democracy || 'n/d') : '---' },
+                    { label: 'donne in parlamento', value: targetAttempts >= 2 ? (targetItem.womenInParliament || 'n/d') : '---' },
+                    { label: 'libertà di stampa', value: targetAttempts >= 3 ? (targetItem.press || 'n/d') : '---' },
+                    { label: 'lotta alla corruzione', value: targetAttempts >= 3 ? (targetItem.corruption || 'n/d') : '---' },
+                    { label: 'facilità di fare affari', value: targetAttempts >= 4 ? (targetItem.business || 'n/d') : '---' },
+                    { label: 'diritti dei lavoratori', value: targetAttempts >= 4 ? (targetItem.workers || 'n/d') : '---' }
+                ];
+
+                questionDisplayEl.innerHTML =
+                    '<div class="hint-grid">' +
+                    hintCards.map(function(card) {
+                        return '<div class="hint-card"><span class="hint-label">' + card.label + '</span><span class="hint-value">' + card.value + '</span></div>';
+                    }).join('') +
+                    '</div>';
+                questionDisplayEl.classList.add('active');
+            }
+
             function setTarget(feature, sourceLabel) {
                 if (!feature) return;
 
                 targetFeature = feature;
                 targetCenter = L.geoJSON(targetFeature).getBounds().getCenter();
                 targetAttempts = 0;
+                targetItem = targetItems.find(function(item) {
+                    return item.feature === feature;
+                }) || null;
                 updateStatusWithTarget("🎯 " + sourceLabel + ":");
                 updateFooterAttempts();
+                renderQuestionDisplay();
 
-                const selectedIndex = targetItems.findIndex(function(item) {
-                    return item.feature === feature;
-                });
-                if (selectedIndex >= 0) {
-                    selectEl.value = String(selectedIndex);
+                if (countryNumberInput) {
+                    countryNumberInput.value = '';
+                    countryNumberInput.max = String(targetItems.length || 1);
                 }
             }
 
-            function refreshCountrySelect() {
-                selectEl.innerHTML = '';
-                for (let i = 0; i < targetItems.length; i++) {
-                    const item = targetItems[i];
-                    const option = document.createElement('option');
-                    option.value = String(i);
-                    option.textContent = item.id;
-                    selectEl.appendChild(option);
+            function refreshCountryInput() {
+                if (countryNumberInput) {
+                    countryNumberInput.disabled = targetItems.length === 0;
+                    countryNumberInput.min = '1';
+                    countryNumberInput.max = String(targetItems.length || 1);
+                    countryNumberInput.value = '';
                 }
 
-                selectEl.disabled = targetItems.length === 0;
+                if (confirmCountryButton) {
+                    confirmCountryButton.disabled = targetItems.length === 0;
+                }
+
                 randomCountryButton.disabled = targetItems.length === 0;
             }
 
-            function updateQuestionDisplay() {
+            function loadQuestionFromInput() {
                 const questionDisplayEl = document.getElementById('question-display');
-                if (!questionDisplayEl) return;
+                if (!questionDisplayEl || !countryNumberInput) return;
 
-                const selectedIndex = Number(selectEl.value);
-                if (!Number.isInteger(selectedIndex) || selectedIndex < 0 || selectedIndex >= targetItems.length) {
-                    questionDisplayEl.classList.remove('active');
-                    questionDisplayEl.innerText = '';
+                const selectedNumber = Number(String(countryNumberInput.value || '').trim());
+                if (!Number.isInteger(selectedNumber) || selectedNumber < 1 || selectedNumber > targetItems.length) {
+                    modal.showModal(
+                        'Valore non valido',
+                        'Inserisci un numero intero tra 1 e ' + targetItems.length + '.'
+                    );
                     return;
                 }
 
-                const selectedItem = targetItems[selectedIndex];
-                questionDisplayEl.innerText =
-                    'Area geografica: ' + (selectedItem.area || 'n/d') + '\n' +
-                    'popolazione (milioni): ' + (selectedItem.population || 'n/d') + '\n' +
-                    'superficie (km2): ' + (selectedItem.surface || 'n/d');
-                questionDisplayEl.classList.add('active');
-                
-                // Auto-set the target when selected from dropdown
+                const selectedItem = targetItems[selectedNumber - 1];
+
+                // Auto-set the target when confirmed from the numeric input
                 randomMode = false;
                 setTarget(selectedItem.feature, "Stato scelto da CSV");
             }
@@ -556,6 +682,15 @@
                 }
 
                 setTarget(nextItem.feature, "Indovina lo Stato");
+
+                if (countryNumberInput) {
+                    const randomIndex = targetItems.findIndex(function(item) {
+                        return item.feature === nextItem.feature;
+                    });
+                    if (randomIndex >= 0) {
+                        countryNumberInput.value = String(randomIndex + 1);
+                    }
+                }
             }
 
             try {
@@ -616,7 +751,7 @@
                             "1) Avvia un server locale (es. Live Server)\n" +
                             "2) Oppure usa il pulsante Carica Stati_2026.csv"
                         );
-                        refreshCountrySelect();
+                        refreshCountryInput();
                         return;
                     }
 
@@ -637,7 +772,7 @@
                     );
                 }
 
-                refreshCountrySelect();
+                refreshCountryInput();
                 setRandomTarget();
             } catch (error) {
                 statusEl.innerHTML = "❌ Errore nel caricamento dei confini locali.<br>Verifica che countries.geojson sia nella stessa cartella e apri la pagina via server locale (http://localhost:PORT).";
@@ -650,8 +785,6 @@
                 );
                 return;
             }
-
-            selectEl.addEventListener('change', updateQuestionDisplay);
 
             if (loadQuestionsButton && questionsFileInput) {
                 loadQuestionsButton.addEventListener('click', function() {
@@ -668,7 +801,7 @@
                         const csvResult = mapCsvEntriesToTargetItems(csvEntries, countryIndex);
 
                         targetItems = csvResult.items;
-                        refreshCountrySelect();
+                        refreshCountryInput();
                         setRandomTarget();
 
                         if (csvResult.missing.length) {
@@ -686,6 +819,18 @@
                         );
                     } finally {
                         questionsFileInput.value = '';
+                    }
+                });
+            }
+
+            if (confirmCountryButton) {
+                confirmCountryButton.addEventListener('click', loadQuestionFromInput);
+            }
+
+            if (countryNumberInput) {
+                countryNumberInput.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        loadQuestionFromInput();
                     }
                 });
             }
@@ -709,6 +854,7 @@
 
                 targetAttempts++;
                 updateFooterAttempts();
+                renderQuestionDisplay();
                 const point = [e.latlng.lng, e.latlng.lat];
                 const correct = isPointInGeometry(point, targetFeature.geometry);
 

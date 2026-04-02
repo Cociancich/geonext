@@ -696,6 +696,70 @@
                 questionDisplayEl.classList.add('active');
             }
 
+            function pointToSegmentDistanceMeters(point, segmentStart, segmentEnd) {
+                const px = point.x;
+                const py = point.y;
+                const ax = segmentStart.x;
+                const ay = segmentStart.y;
+                const bx = segmentEnd.x;
+                const by = segmentEnd.y;
+
+                const abx = bx - ax;
+                const aby = by - ay;
+                const apx = px - ax;
+                const apy = py - ay;
+                const abLengthSquared = (abx * abx) + (aby * aby);
+
+                if (abLengthSquared === 0) {
+                    return Math.sqrt((apx * apx) + (apy * apy));
+                }
+
+                const t = Math.max(0, Math.min(1, ((apx * abx) + (apy * aby)) / abLengthSquared));
+                const closestX = ax + (t * abx);
+                const closestY = ay + (t * aby);
+                const dx = px - closestX;
+                const dy = py - closestY;
+
+                return Math.sqrt((dx * dx) + (dy * dy));
+            }
+
+            function getNearestBoundaryDistanceKm(latlng, geometry) {
+                if (!geometry) return null;
+
+                const crs = map.options && map.options.crs ? map.options.crs : L.CRS.EPSG3857;
+                const targetPoint = crs.project(L.latLng(latlng.lat, latlng.lng));
+                let minDistanceMeters = Infinity;
+
+                function scanRing(ring) {
+                    if (!ring || ring.length < 2) return;
+
+                    for (let i = 0; i < ring.length - 1; i++) {
+                        const startPoint = crs.project(L.latLng(ring[i][1], ring[i][0]));
+                        const endPoint = crs.project(L.latLng(ring[i + 1][1], ring[i + 1][0]));
+                        const distanceMeters = pointToSegmentDistanceMeters(targetPoint, startPoint, endPoint);
+                        if (distanceMeters < minDistanceMeters) {
+                            minDistanceMeters = distanceMeters;
+                        }
+                    }
+                }
+
+                if (geometry.type === 'Polygon') {
+                    for (const ring of geometry.coordinates || []) {
+                        scanRing(ring);
+                    }
+                } else if (geometry.type === 'MultiPolygon') {
+                    for (const polygon of geometry.coordinates || []) {
+                        for (const ring of polygon) {
+                            scanRing(ring);
+                        }
+                    }
+                }
+
+                if (!isFinite(minDistanceMeters)) return null;
+
+                return minDistanceMeters / 1000;
+            }
+
             function setTarget(feature, sourceLabel) {
                 if (!feature) return;
 
@@ -967,14 +1031,13 @@
                 }
 
                 const where = clickedCountry ? getCountryName(clickedCountry) : 'mare aperto';
-                const distanceHintKm = targetCenter
-                    ? (map.distance(e.latlng, targetCenter) / 1000).toFixed(0)
-                    : '?';
+                const distanceHintKm = getNearestBoundaryDistanceKm(e.latlng, targetFeature.geometry);
+                const distanceHintText = distanceHintKm !== null ? distanceHintKm.toFixed(0) : '?';
 
                 modal.showModal(
                     "Risultato",
                     "❌ Sbagliato. Hai cliccato in: " + where + "." +
-                    "\nIndizio distanza dallo Stato corretto: circa " + distanceHintKm + " km." +
+                    "\nIndizio distanza dal confine più vicino: circa " + distanceHintText + " km." +
                     "\nTentativi residui: " + Math.max(maxTargetAttempts - targetAttempts, 0) + "." +
                     (targetAttempts >= maxTargetAttempts ? "\nTentativi esauriti." : "\nRiprova!")
                 );

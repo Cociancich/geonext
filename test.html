@@ -855,6 +855,24 @@
                         weight: 1,
                         fillColor: '#7bc67b',
                         fillOpacity: 0.7
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindTooltip(getCountryName(feature), {
+                            sticky: true,
+                            direction: 'auto',
+                            opacity: 0.95
+                        });
+
+                        layer.on('mouseover', function() {
+                            layer.setStyle({
+                                weight: 2,
+                                fillOpacity: 0.85
+                            });
+                        });
+
+                        layer.on('mouseout', function() {
+                            countryBorders.resetStyle(layer);
+                        });
                     }
                 }).addTo(map);
                 map.fitBounds(countryBorders.getBounds(), { padding: [8, 8] });

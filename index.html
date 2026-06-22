@@ -46,6 +46,9 @@
         #load-questions-file {
             display: none;
         }
+        #area-select {
+            width: 160px;
+        }
         #country-number-input {
             width: 120px;
         }
@@ -201,10 +204,16 @@
     <h1>Pensare umano, pensare quantitativo. Indovina il paese!</h1>
     <div id="status">Inizializzazione in corso...</div>
     <div class="controls">
+        <select id="area-select">
+            <option value="Europe">Europa</option>
+            <option value="Americas">America</option>
+            <option value="Asia">Asia</option>
+            <option value="Africa">Africa</option>
+        </select>
+        <button id="random-country" type="button" disabled>Random</button>
         <label for="country-number-input">Domanda:</label>
         <input id="country-number-input" type="number" min="1" step="1" inputmode="numeric" placeholder="1" disabled />
         <button id="confirm-country" type="button" disabled>OK</button>
-        <button id="random-country" type="button" disabled>Random</button>
         <button id="load-questions-file" type="button">Carica Stati_2026.csv</button>
         <input id="questions-file-input" type="file" accept=".csv,text/csv" hidden />
     </div>
@@ -563,6 +572,7 @@
             const randomCountryButton = document.getElementById('random-country');
             const loadQuestionsButton = document.getElementById('load-questions-file');
             const questionsFileInput = document.getElementById('questions-file-input');
+            const areaSelect = document.getElementById('area-select');
             const modal = createModalController();
             statusEl.innerText = "⏳ Caricamento confini degli Stati...";
             statusEl.style.color = "blue";
@@ -820,10 +830,25 @@
                 stopTargetTimer();
                 if (!targetItems.length) return;
 
-                let nextItem = targetItems[Math.floor(Math.random() * targetItems.length)];
-                if (targetItems.length > 1 && targetFeature) {
+                const selectedArea = areaSelect ? normalizeCountryName(areaSelect.value) : '';
+                const filteredItems = selectedArea
+                    ? targetItems.filter(function(item) {
+                        return normalizeCountryName(item.area) === selectedArea;
+                    })
+                    : targetItems;
+
+                if (!filteredItems.length) {
+                    modal.showModal(
+                        'Area vuota',
+                        'Non ci sono Stati disponibili per l’area selezionata.'
+                    );
+                    return;
+                }
+
+                let nextItem = filteredItems[Math.floor(Math.random() * filteredItems.length)];
+                if (filteredItems.length > 1 && targetFeature) {
                     while (nextItem.feature === targetFeature) {
-                        nextItem = targetItems[Math.floor(Math.random() * targetItems.length)];
+                        nextItem = filteredItems[Math.floor(Math.random() * filteredItems.length)];
                     }
                 }
                 //document.getElementById('question-display').textContent = nextItem.feature;

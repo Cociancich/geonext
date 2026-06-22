@@ -632,7 +632,7 @@
                     'Tempo scaduto',
                     'Il tempo è scaduto e hai perso un tentativo.'
                 );
-                startTargetTimer();
+               //startTargetTimer();
             }
 
             function startTargetTimer() {
@@ -775,7 +775,6 @@
                 renderQuestionDisplay();
 
                 if (countryNumberInput) {
-                    countryNumberInput.value = '';
                     countryNumberInput.max = String(targetItems.length || 1);
                 }
             }
@@ -796,6 +795,7 @@
             }
 
             function loadQuestionFromInput() {
+                stopTargetTimer();
                 const questionDisplayEl = document.getElementById('question-display');
                 if (!questionDisplayEl || !countryNumberInput) return;
 
@@ -816,6 +816,7 @@
             }
 
             function setRandomTarget() {
+                stopTargetTimer();
                 if (!targetItems.length) return;
 
                 let nextItem = targetItems[Math.floor(Math.random() * targetItems.length)];
@@ -824,8 +825,9 @@
                         nextItem = targetItems[Math.floor(Math.random() * targetItems.length)];
                     }
                 }
+                //document.getElementById('question-display').textContent = nextItem.feature;
 
-                setTarget(nextItem.feature, "Indovina lo Stato");
+                //setTarget(nextItem.feature, "Indovina lo Stato");
 
                 if (countryNumberInput) {
                     const randomIndex = targetItems.findIndex(function(item) {
@@ -1030,12 +1032,15 @@
                         "\nTentativi utilizzati: " + targetAttempts + "." +
                         (wrongAttempts > 0 ? "\nTentativi sbagliati prima della risposta esatta: " + wrongAttempts + "." : "")
                     );
+                    /*
                     if (randomMode) {
                         setRandomTarget();
                     } else {
                         updateStatusWithTarget("✅ Centrato. Puoi cambiare Stato da CSV oppure cliccare Random:");
                     }
-                    startTargetTimer();
+                    */
+                    updateStatusWithTarget("✅ Centrato. Puoi cambiare Stato da CSV oppure cliccare Random:");
+                    //startTargetTimer();
                     updateFooterAttempts();
                     return;
                 }

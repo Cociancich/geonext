@@ -67,7 +67,7 @@
         }
         .hint-grid {
             display: grid;
-            grid-template-columns: repeat(6, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 10px;
         }
         @media (max-width: 1280px) {
@@ -77,7 +77,7 @@
         }
         @media (max-width: 900px) {
             .hint-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns: repeat(4, minmax(0, 1fr));
             }
         }
         .hint-card {
@@ -747,14 +747,14 @@
                     { label: 'popolazione (milioni)', value: targetItem.population || 'n/d' },
                     { label: 'superficie (km2)', value: targetItem.surface || 'n/d' },
                     { label: 'PIL', value: targetAttempts >= 1 ? (targetItem.pil || 'n/d') : '---' },
-                    { label: 'PIL pro capite', value: targetAttempts >= 1 ? (targetItem.pilPro || 'n/d') : '---' },
-                    { label: 'parità di genere', value: targetAttempts >= 2 ? (targetItem.parity || 'n/d') : '---' },
+                    { label: 'donne in parlamento', value: targetAttempts >= 1 ? (targetItem.womenInParliament || 'n/d') : '---' },
+                    { label: 'lotta alla corruzione', value: targetAttempts >= 1 ? (targetItem.corruption || 'n/d') : '---' },                    
+                    { label: 'PIL pro capite', value: targetAttempts >= 2 ? (targetItem.pilPro || 'n/d') : '---' },                    
                     { label: 'democrazia', value: targetAttempts >= 2 ? (targetItem.democracy || 'n/d') : '---' },
-                    { label: 'donne in parlamento', value: targetAttempts >= 2 ? (targetItem.womenInParliament || 'n/d') : '---' },
+                    { label: 'diritti dei lavoratori', value: targetAttempts >= 2 ? (targetItem.workers || 'n/d') : '---' },                   
+                    { label: 'parità di genere', value: targetAttempts >= 3 ? (targetItem.parity || 'n/d') : '---' },
                     { label: 'libertà di stampa', value: targetAttempts >= 3 ? (targetItem.press || 'n/d') : '---' },
-                    { label: 'lotta alla corruzione', value: targetAttempts >= 3 ? (targetItem.corruption || 'n/d') : '---' },
-                    { label: 'facilità di fare affari', value: targetAttempts >= 4 ? (targetItem.business || 'n/d') : '---' },
-                    { label: 'diritti dei lavoratori', value: targetAttempts >= 4 ? (targetItem.workers || 'n/d') : '---' }
+                    { label: 'facilità di fare affari', value: targetAttempts >= 3 ? (targetItem.business || 'n/d') : '---' },                    
                 ];
 
                 questionDisplayEl.innerHTML =

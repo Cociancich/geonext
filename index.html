@@ -312,6 +312,31 @@
                 .trim();
         }
 
+        function normalizeAreaName(name) {
+            const normalized = normalizeCountryName(name);
+
+            if (normalized === 'europa' || normalized === 'europe') return 'europe';
+            if (normalized === 'africa') return 'africa';
+            if (normalized === 'asia') return 'asia';
+            if (normalized === 'america' || normalized === 'americas' || normalized === 'north america' || normalized === 'south america') {
+                return 'americas';
+            }
+
+            return normalized;
+        }
+
+        const AREA_STYLES = {
+            europe: { fillColor: '#4caf50', borderColor: '#2e7d32' },
+            africa: { fillColor: '#8b5cf6', borderColor: '#6d28d9' },
+            asia: { fillColor: '#facc15', borderColor: '#ca8a04' },
+            americas: { fillColor: '#f97316', borderColor: '#c2410c' },
+            default: { fillColor: '#b8c0cc', borderColor: '#8b95a5' }
+        };
+
+        function getAreaStyle(areaName) {
+            return AREA_STYLES[normalizeAreaName(areaName)] || AREA_STYLES.default;
+        }
+
         function decodeCsvBytes(arrayBuffer) {
             const utf8Text = new TextDecoder('utf-8').decode(arrayBuffer);
             if (utf8Text.indexOf('\uFFFD') === -1) {
@@ -479,6 +504,38 @@
             };
         }
 
+        function buildFeatureAreaMap(targetItems) {
+            const areaByFeature = new Map();
+
+            for (const item of targetItems || []) {
+                if (!item || !item.feature) continue;
+
+                const areaKey = normalizeAreaName(item.area);
+                if (areaKey && !areaByFeature.has(item.feature)) {
+                    areaByFeature.set(item.feature, areaKey);
+                }
+            }
+
+            return areaByFeature;
+        }
+
+        function getFeatureAreaKey(feature, featureAreaMap) {
+            if (!featureAreaMap) return '';
+            return featureAreaMap.get(feature) || '';
+        }
+
+        function getCountryBorderStyle(feature, featureAreaMap) {
+            const areaKey = getFeatureAreaKey(feature, featureAreaMap);
+            const areaStyle = AREA_STYLES[areaKey] || AREA_STYLES.default;
+
+            return {
+                color: areaStyle.borderColor,
+                weight: 1,
+                fillColor: areaStyle.fillColor,
+                fillOpacity: 0.74
+            };
+        }
+
         function buildCountryIndex(features) {
             const index = new Map();
 
@@ -595,6 +652,8 @@
             let targetTimerId = null;
             let randomMode = true;
             let countryIndex = new Map();
+            let countryBorders = null;
+            let featureAreaMap = new Map();
             const footerEl = document.getElementById('game-footer');
             const attemptsStripEl = document.getElementById('attempts-strip');
             const timerValueEl = document.getElementById('timer-value');
@@ -830,10 +889,10 @@
                 stopTargetTimer();
                 if (!targetItems.length) return;
 
-                const selectedArea = areaSelect ? normalizeCountryName(areaSelect.value) : '';
+                const selectedArea = areaSelect ? normalizeAreaName(areaSelect.value) : '';
                 const filteredItems = selectedArea
                     ? targetItems.filter(function(item) {
-                        return normalizeCountryName(item.area) === selectedArea;
+                        return normalizeAreaName(item.area) === selectedArea;
                     })
                     : targetItems;
 
@@ -877,12 +936,9 @@
                     return type === 'Polygon' || type === 'MultiPolygon';
                 });
 
-                const countryBorders = L.geoJSON(geojson, {
-                    style: {
-                        color: '#2f6f2f',
-                        weight: 1,
-                        fillColor: '#7bc67b',
-                        fillOpacity: 0.7
+                countryBorders = L.geoJSON(geojson, {
+                    style: function(feature) {
+                        return getCountryBorderStyle(feature, featureAreaMap);
                     },
                     onEachFeature: function(feature, layer) {
                         layer.bindTooltip(getCountryName(feature), {
@@ -910,6 +966,15 @@
                 }
 
                 countryIndex = buildCountryIndex(countries);
+
+                function refreshCountryBorderColors() {
+                    if (!countryBorders) return;
+
+                    countryBorders.eachLayer(function(layer) {
+                        layer.setStyle(getCountryBorderStyle(layer.feature, featureAreaMap));
+                    });
+                }
+
                 try {
                     if (window.location.protocol === 'file:') {
                         throw new Error('Esecuzione da file locale (file://): fetch del CSV bloccato dal browser');
@@ -917,6 +982,8 @@
 
                     const csvResult = await loadCountryPoolFromCsv(countryIndex);
                     targetItems = csvResult.items;
+                    featureAreaMap = buildFeatureAreaMap(targetItems);
+                    refreshCountryBorderColors();
                     if (csvInfoEl) {
                         csvInfoEl.innerText = "Lista attiva: Stati_2026.csv (" + targetItems.length + " stati caricati)";
                     }
@@ -949,9 +1016,12 @@
                         return {
                             id: String(index + 1),
                             question: 'Trova lo Stato: ' + getCountryName(feature),
-                            feature: feature
+                            feature: feature,
+                            area: ''
                         };
                     });
+                    featureAreaMap = buildFeatureAreaMap(targetItems);
+                    refreshCountryBorderColors();
                     if (csvInfoEl) {
                         csvInfoEl.innerText = "CSV non disponibile: uso tutti gli Stati del dataset.";
                     }
@@ -991,6 +1061,12 @@
                         const csvResult = mapCsvEntriesToTargetItems(csvEntries, countryIndex);
 
                         targetItems = csvResult.items;
+                        featureAreaMap = buildFeatureAreaMap(targetItems);
+                        if (countryBorders) {
+                            countryBorders.eachLayer(function(layer) {
+                                layer.setStyle(getCountryBorderStyle(layer.feature, featureAreaMap));
+                            });
+                        }
                         refreshCountryInput();
                         setRandomTarget();
 

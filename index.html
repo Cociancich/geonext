@@ -841,7 +841,13 @@
                 }) || null;
                 updateStatusWithTarget("🎯 " + sourceLabel + ":");
                 updateFooterAttempts();
-                startTargetTimer();
+                if(targetAttempts >= 1){
+                    startTargetTimer();
+                }   
+                else{
+                    stopTargetTimer();
+                }             
+                
                 renderQuestionDisplay();
 
                 if (countryNumberInput) {
@@ -1134,6 +1140,7 @@
                         "\nTentativi utilizzati: " + targetAttempts + "." +
                         (wrongAttempts > 0 ? "\nTentativi sbagliati prima della risposta esatta: " + wrongAttempts + "." : "")
                     );
+                    stopTargetTimer();
                     /*
                     if (randomMode) {
                         setRandomTarget();
@@ -1166,6 +1173,7 @@
                     "\nTentativi residui: " + Math.max(maxTargetAttempts - targetAttempts, 0) + "." +
                     (targetAttempts >= maxTargetAttempts ? "\nTentativi esauriti." : "\nRiprova!")
                 );
+                
             });
         }
 

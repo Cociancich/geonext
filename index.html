@@ -197,6 +197,17 @@
         #modal-ok:hover {
             background: #2168b5;
         }
+        #solution-display {
+            display: none;
+            margin-top: 12px;
+        }
+        #solution-display.is-open {
+            display: block;
+        }
+        #solution-info {
+            display: none;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -226,6 +237,11 @@
             <span id="timer-value" aria-live="polite">120s</span>
             <span class="footer-label">Tentativi residui:</span>
             <span id="attempts-strip" class="brain-strip" aria-live="polite" aria-label="Tentativi residui: 5"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"></span>
+        </div>
+        <div id="solution-display" aria-live="polite">
+            <button id="show-solution" type="button">Mostra soluzione</button>
+            <span id="solution-info" style="margin-left: 10px;"></span>
+        </div>
         </div>
     </footer>
     <div id="game-modal" class="modal-overlay" aria-hidden="true">
@@ -646,7 +662,7 @@
             let targetItem = null;
             let targetCenter = null;
             let targetAttempts = 0;
-            const maxTargetAttempts = 5;
+            const maxTargetAttempts = 4;
             const maxTargetSeconds = 120;
             let targetTimerSecondsLeft = maxTargetSeconds;
             let targetTimerId = null;
@@ -657,7 +673,35 @@
             const footerEl = document.getElementById('game-footer');
             const attemptsStripEl = document.getElementById('attempts-strip');
             const timerValueEl = document.getElementById('timer-value');
+            const solutionDisplayEl = document.getElementById('solution-display');
+            const showSolutionButton = document.getElementById('show-solution');
+            const solutionInfoEl = document.getElementById('solution-info');
             const brainImageSrc = 'cervello.png';
+            let solutionInfoVisible = false;
+
+            function hideSolutionDisplay() {
+                solutionInfoVisible = false;
+
+                if (solutionInfoEl) {
+                    solutionInfoEl.innerHTML = '';
+                    solutionInfoEl.style.display = 'none';
+                }
+
+                if (solutionDisplayEl) {
+                    solutionDisplayEl.classList.remove('is-open');
+                }
+            }
+
+            function showSolutionButtonArea() {
+                if (!solutionDisplayEl) return;
+
+                solutionDisplayEl.classList.add('is-open');
+                if (solutionInfoEl) {
+                    solutionInfoEl.innerHTML = '';
+                    solutionInfoEl.style.display = 'none';
+                }
+                solutionInfoVisible = false;
+            }
 
             function updateFooterAttempts() {
                 if (!attemptsStripEl) return;
@@ -690,6 +734,7 @@
                 renderQuestionDisplay();
 
                 if (targetAttempts >= maxTargetAttempts) {
+                    renderSolutionDisplay();
                     modal.showModal(
                         'Tempo scaduto',
                         'Il tempo è scaduto e hai consumato l’ultimo tentativo disponibile.'
@@ -764,6 +809,23 @@
                     }).join('') +
                     '</div>';
                 questionDisplayEl.classList.add('active');
+            }
+
+            function renderSolutionDisplay() {
+                if (!targetFeature || targetAttempts < maxTargetAttempts) {
+                    hideSolutionDisplay();
+                    return;
+                }
+
+                showSolutionButtonArea();
+            }
+
+            function populateSolutionInfo() {
+                if (!solutionInfoEl || !targetFeature) return;
+
+                const countryName = getCountryName(targetFeature);
+                solutionInfoEl.innerHTML =
+                    'Soluzione: <strong>' + countryName + '</strong>';
             }
 
             function pointToSegmentDistanceMeters(point, segmentStart, segmentEnd) {
@@ -849,6 +911,7 @@
                 }             
                 
                 renderQuestionDisplay();
+                renderSolutionDisplay();
 
                 if (countryNumberInput) {
                     countryNumberInput.max = String(targetItems.length || 1);
@@ -1173,8 +1236,26 @@
                     "\nTentativi residui: " + Math.max(maxTargetAttempts - targetAttempts, 0) + "." +
                     (targetAttempts >= maxTargetAttempts ? "\nTentativi esauriti." : "\nRiprova!")
                 );
+                renderSolutionDisplay();
                 
             });
+
+            if (showSolutionButton) {
+                showSolutionButton.addEventListener('click', function() {
+                    if (!targetFeature || targetAttempts < maxTargetAttempts) return;
+
+                    if (solutionInfoVisible) {
+                        hideSolutionDisplay();
+                        return;
+                    }
+
+                    populateSolutionInfo();
+                    if (solutionInfoEl) {
+                        solutionInfoEl.style.display = 'inline';
+                    }
+                    solutionInfoVisible = true;
+                });
+            }
         }
 
         // Aspetta che tutto sia pronto

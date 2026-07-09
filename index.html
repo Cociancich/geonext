@@ -670,6 +670,7 @@
             let countryIndex = new Map();
             let countryBorders = null;
             let featureAreaMap = new Map();
+            let attemptRadiusCircle = null;
             const footerEl = document.getElementById('game-footer');
             const attemptsStripEl = document.getElementById('attempts-strip');
             const timerValueEl = document.getElementById('timer-value');
@@ -724,6 +725,28 @@
                     window.clearInterval(targetTimerId);
                     targetTimerId = null;
                 }
+            }
+
+            function clearAttemptRadiusCircle() {
+                if (attemptRadiusCircle) {
+                    map.removeLayer(attemptRadiusCircle);
+                    attemptRadiusCircle = null;
+                }
+            }
+
+            function drawAttemptRadiusCircle(latlng, radiusKm) {
+                clearAttemptRadiusCircle();
+
+                if (!latlng || !isFinite(radiusKm) || radiusKm < 0) return;
+
+                attemptRadiusCircle = L.circle(latlng, {
+                    radius: radiusKm * 1000,
+                    color: '#d97706',
+                    weight: 2,
+                    fillColor: '#f59e0b',
+                    fillOpacity: 0.14,
+                    dashArray: '6 6'
+                }).addTo(map);
             }
 
             function handleTimerExpired() {
@@ -895,6 +918,7 @@
             function setTarget(feature, sourceLabel) {
                 if (!feature) return;
 
+                clearAttemptRadiusCircle();
                 targetFeature = feature;
                 targetCenter = L.geoJSON(targetFeature).getBounds().getCenter();
                 targetAttempts = 0;
@@ -1197,6 +1221,7 @@
 
                 if (correct) {
                     const wrongAttempts = Math.max(targetAttempts - 1, 0);
+                    clearAttemptRadiusCircle();
                     modal.showModal(
                         "Risultato",
                         "✅ Corretto! Hai cliccato dentro i confini di " + getCountryName(targetFeature) + "." +
@@ -1228,6 +1253,14 @@
                 const where = clickedCountry ? getCountryName(clickedCountry) : 'mare aperto';
                 const distanceHintKm = getNearestBoundaryDistanceKm(e.latlng, targetFeature.geometry);
                 const distanceHintText = distanceHintKm !== null ? distanceHintKm.toFixed(0) : '?';
+                if (distanceHintKm !== null) {
+                    if(distanceHintKm <= 500){
+                        drawAttemptRadiusCircle(e.latlng, distanceHintKm * 1.5);
+                    }
+                    else{
+                        drawAttemptRadiusCircle(e.latlng, distanceHintKm * 1.1);
+                    }
+                }
 
                 modal.showModal(
                     "Risultato",

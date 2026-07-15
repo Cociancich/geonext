@@ -747,6 +747,11 @@
                     fillOpacity: 0.14,
                     dashArray: '6 6'
                 }).addTo(map);
+
+                // Disabilita i pointer events sul cerchio per permettere al tooltip di comparire
+                if (attemptRadiusCircle._path) {
+                    attemptRadiusCircle._path.style.pointerEvents = 'none';
+                }
             }
 
             function handleTimerExpired() {
@@ -1035,6 +1040,7 @@
                     },
                     onEachFeature: function(feature, layer) {
                         layer.bindTooltip(getCountryName(feature), {
+                           // permanent: true,
                             sticky: true,
                             direction: 'auto',
                             opacity: 0.95

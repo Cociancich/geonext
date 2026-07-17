@@ -217,11 +217,11 @@
       -->
     <div id="status">Inizializzazione in corso...</div>
     <div class="controls">
-        <select id="area-select">
-            <option value="Europe">Europa</option>
-            <option value="Americas">America</option>
-            <option value="Asia">Asia</option>
-            <option value="Africa">Africa</option>
+        <select id="area-select">                     
+            <option value="1">Africa</option>
+            <option value="2">Asia</option>
+            <option value="3">America</option>
+            <option value="4">Europa</option>
         </select>
         <button id="random-country" type="button" disabled>Random</button>
         <label for="country-number-input">Domanda:</label>
@@ -330,29 +330,24 @@
                 .trim();
         }
 
-        function normalizeAreaName(name) {
-            const normalized = normalizeCountryName(name);
+        function normalizeAreaNum(value) {
+            const raw = String(value || '').trim();
+            if (!raw) return '';
 
-            if (normalized === 'europa' || normalized === 'europe') return 'europe';
-            if (normalized === 'africa') return 'africa';
-            if (normalized === 'asia') return 'asia';
-            if (normalized === 'america' || normalized === 'americas' || normalized === 'north america' || normalized === 'south america') {
-                return 'americas';
-            }
-
-            return normalized;
+            const match = raw.match(/\d+/);
+            return match ? match[0] : '';
         }
 
         const AREA_STYLES = {
-            europe: { fillColor: '#4caf50', borderColor: '#2e7d32' },
-            africa: { fillColor: '#8b5cf6', borderColor: '#6d28d9' },
-            asia: { fillColor: '#facc15', borderColor: '#ca8a04' },
-            americas: { fillColor: '#f97316', borderColor: '#c2410c' },
+            '4': { fillColor: '#4caf50', borderColor: '#2e7d32' },
+            '1': { fillColor: '#f97316', borderColor: '#c2410c' },
+            '2': { fillColor: '#facc15', borderColor: '#ca8a04' },
+            '3': { fillColor: '#8b5cf6', borderColor: '#6d28d9' },
             default: { fillColor: '#b8c0cc', borderColor: '#8b95a5' }
         };
 
-        function getAreaStyle(areaName) {
-            return AREA_STYLES[normalizeAreaName(areaName)] || AREA_STYLES.default;
+        function getAreaStyle(areaNum) {
+            return AREA_STYLES[normalizeAreaNum(areaNum)] || AREA_STYLES.default;
         }
 
         function decodeCsvBytes(arrayBuffer) {
@@ -456,6 +451,7 @@
                         raw: isoCode,
                         key: normalized,
                         countryName: countryName,
+                        areaNum: areaNumColumn,
                         area: areaColumn,
                         population: populationColumn,
                         surface: surfaceColumn,
@@ -496,6 +492,7 @@
                         id: entry.id,
                         feature: matched,
                         countryName: entry.countryName,
+                        areaNum: entry.areaNum,
                         area: entry.area,
                         population: entry.population,
                         surface: entry.surface,
@@ -528,7 +525,7 @@
             for (const item of targetItems || []) {
                 if (!item || !item.feature) continue;
 
-                const areaKey = normalizeAreaName(item.area);
+                const areaKey = normalizeAreaNum(item.areaNum);
                 if (areaKey && !areaByFeature.has(item.feature)) {
                     areaByFeature.set(item.feature, areaKey);
                 }
@@ -991,10 +988,10 @@
                 stopTargetTimer();
                 if (!targetItems.length) return;
 
-                const selectedArea = areaSelect ? normalizeAreaName(areaSelect.value) : '';
+                const selectedArea = areaSelect ? normalizeAreaNum(areaSelect.value) : '';
                 const filteredItems = selectedArea
                     ? targetItems.filter(function(item) {
-                        return normalizeAreaName(item.area) === selectedArea;
+                        return normalizeAreaNum(item.areaNum) === selectedArea;
                     })
                     : targetItems;
 
@@ -1120,6 +1117,7 @@
                             id: String(index + 1),
                             question: 'Trova lo Stato: ' + getCountryName(feature),
                             feature: feature,
+                            areaNum: '',
                             area: ''
                         };
                     });

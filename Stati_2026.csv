@@ -1,177 +1,177 @@
 ﻿id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia;donne_in_parl;stampa;corruzione;affari;lavoratori
-1;Afghanistan;AFG;2;Asia;43.844.000;652.864;132;168;NA;176;Suspended;175;159;173;5 - no guarantee of rights
+1;Afghanistan;AFG;2;Asia-Oceania;43.844.000;652.864;132;168;NA;176;Suspended;175;159;173;5 - no guarantee of rights
 2;Albania;ALB;4;Europe;2.363.314;28.748;108;68;36;81;48;100;81;82;3 - regular violations
-3;Algeria;DZA;3;Africa;47.400.000;2.381.741;50;96;141;131;172;80;99;157;5 - no guarantee of rights
-4;Angola;AGO;3;Africa;36.604.681;1.246.700;71;126;117;120;34;164;110;177;4 - systematic violations
-5;Argentina;ARG;1;Americas;46.387.098;2.780.400;25;65;37;56;21;87;94;126;4 - systematic violations
-6;Armenia;ARM;2;Asia;3.076.200;29.743;113;76;59;86;36;34;57;47;3 - regular violations
-7;Australia;AUS;2;Asia;27.724.744;7.741.220;14;14;13;12;9;29;12;14;2 - repeated violations
+3;Algeria;DZA;1;Africa;47.400.000;2.381.741;50;96;141;131;172;80;99;157;5 - no guarantee of rights
+4;Angola;AGO;1;Africa;36.604.681;1.246.700;71;126;117;120;34;164;110;177;4 - systematic violations
+5;Argentina;ARG;3;Americas;46.387.098;2.780.400;25;65;37;56;21;87;94;126;4 - systematic violations
+6;Armenia;ARM;2;Asia-Oceania;3.076.200;29.743;113;76;59;86;36;34;57;47;3 - regular violations
+7;Australia;AUS;2;Asia-Oceania;27.724.744;7.741.220;14;14;13;12;9;29;12;14;2 - repeated violations
 8;Austria;AUT;4;Europe;9.219.113;83.878;27;16;56;19;43;22;21;27;1 - sporadic violations
-9;Azerbaijan;AZE;2;Asia;10.259.701;86.600;82;83;100;164;119;167;120;34;NA
-10;Bahrain;BHR;2;Asia;1.594.654;778;96;43;104;158;122;125;49;43;5 - no guarantee of rights
-11;Bangladesh;BGD;2;Asia;169.828.911;148.460;32;122;24;133;Suspended;18;140;168;5 - no guarantee of rights
+9;Azerbaijan;AZE;2;Asia-Oceania;10.259.701;86.600;82;83;100;164;119;167;120;34;NA
+10;Bahrain;BHR;2;Asia-Oceania;1.594.654;778;96;43;104;158;122;125;49;43;5 - no guarantee of rights
+11;Bangladesh;BGD;2;Asia-Oceania;169.828.911;148.460;32;122;24;133;Suspended;18;140;168;5 - no guarantee of rights
 12;Belarus;BLR;4;Europe;9.109.280;207.600;79;73;54;172;52;92;114;49;5 - no guarantee of rights
 13;Belgium;BEL;4;Europe;11.928.465;30.528;22;17;27;11;25;105;22;46;3 - regular violations
-14;Belize;BLZ;1;Americas;417.634;22.965;162;81;89;NA;156;149;95;135;3 - regular violations
-15;Benin;BEN;3;Africa;13.224.860;114.763;117;138;113;93;91;70;62;149;4 - systematic violations
-16;Bhutan;BTN;2;Asia;784.043;38.394;161;106;119;72;178;157;18;89;NA
-17;Bolivia;BOL;1;Americas;11.365.333;1.098.581;90;110;48;89;4;86;126;150;3 - regular violations
+14;Belize;BLZ;3;Americas;417.634;22.965;162;81;89;NA;156;149;95;135;3 - regular violations
+15;Benin;BEN;1;Africa;13.224.860;114.763;117;138;113;93;91;70;62;149;4 - systematic violations
+16;Bhutan;BTN;2;Asia-Oceania;784.043;38.394;161;106;119;72;178;157;18;89;NA
+17;Bolivia;BOL;3;Americas;11.365.333;1.098.581;90;110;48;89;4;86;126;150;3 - regular violations
 18;Bosnia and Herzegovina;BIH;4;Europe;3.412.000;51.209;105;72;73;91;129;166;100;90;3 - regular violations
-19;Botswana;BWA;3;Africa;2.359.609;582.000;130;85;60;59;170;47;35;87;4 - systematic violations
-20;Brazil;BRA;1;Americas;213.421.037;8.510.346;11;71;72;28;134;93;97;124;4 - systematic violations
-21;Brunei;BRN;2;Asia;455.500;5.765;140;37;107;NA;159;63;31;66;NA
+19;Botswana;BWA;1;Africa;2.359.609;582.000;130;85;60;59;170;47;35;87;4 - systematic violations
+20;Brazil;BRA;3;Americas;213.421.037;8.510.346;11;71;72;28;134;93;97;124;4 - systematic violations
+21;Brunei;BRN;2;Asia-Oceania;455.500;5.765;140;37;107;NA;159;63;31;66;NA
 22;Bulgaria;BGR;4;Europe;6.437.360;110.879;61;51;83;67;99;97;74;61;3 - regular violations
-23;Burkina Faso;BFA;3;Africa;24.070.553;274.200;111;146;120;142;132;152;75;151;4 - systematic violations
-24;Burundi;BDI;3;Africa;12.332.788;27.834;152;167;44;159;30;81;157;166;5 - no guarantee of rights
-25;Cambodia;KHM;2;Asia;17.577.760;181.035;94;123;106;165;152;72;153;144;5 - no guarantee of rights
-26;Cameroon;CMR;3;Africa;29.442.327;475.650;86;133;93;137;52;21;132;167;4 - systematic violations
-27;Canada;CAN;1;Americas;41.472.081;9.984.670;10;22;32;23;72;9;16;23;3 - regular violations
-28;Cape Verde;CPV;3;Africa;491.233;4.033;163;95;30;40;17;69;31;137;NA
-29;Central Africa Republic;CAF;3;Africa;6.470.307;622.984;164;188;NA;143;159;178;141;184;5 - no guarantee of rights
-30;Chad;TCD;3;Africa;19.340.757;1.284.000;123;148;146;157;54;64;147;182;4 - systematic violations
-31;Chile;CHL;1;Americas;20.206.953;756.102;44;58;22;16;47;131;29;59;3 - regular violations
-32;China;CHN;2;Asia;1.404.890.000;9.596.960;2;74;103;171;92;133;66;31;5 - no guarantee of rights
-33;Colombia;COL;1;Americas;53.057.212;1.138.910;36;79;41;53;77;71;89;67;5 - no guarantee of rights
-34;Comoros;COM;3;Africa;944.388;1.861;170;136;115;126;133;115;154;160;NA
-35;Costa Rica;CRI;1;Americas;5.191.824;51.180;72;54;16;7;8;75;40;74;4 - systematic violations
+23;Burkina Faso;BFA;1;Africa;24.070.553;274.200;111;146;120;142;132;152;75;151;4 - systematic violations
+24;Burundi;BDI;1;Africa;12.332.788;27.834;152;167;44;159;30;81;157;166;5 - no guarantee of rights
+25;Cambodia;KHM;2;Asia-Oceania;17.577.760;181.035;94;123;106;165;152;72;153;144;5 - no guarantee of rights
+26;Cameroon;CMR;1;Africa;29.442.327;475.650;86;133;93;137;52;21;132;167;4 - systematic violations
+27;Canada;CAN;3;Americas;41.472.081;9.984.670;10;22;32;23;72;9;16;23;3 - regular violations
+28;Cape Verde;CPV;1;Africa;491.233;4.033;163;95;30;40;17;69;31;137;NA
+29;Central Africa Republic;CAF;1;Africa;6.470.307;622.984;164;188;NA;143;159;178;141;184;5 - no guarantee of rights
+30;Chad;TCD;1;Africa;19.340.757;1.284.000;123;148;146;157;54;64;147;182;4 - systematic violations
+31;Chile;CHL;3;Americas;20.206.953;756.102;44;58;22;16;47;131;29;59;3 - regular violations
+32;China;CHN;2;Asia-Oceania;1.404.890.000;9.596.960;2;74;103;171;92;133;66;31;5 - no guarantee of rights
+33;Colombia;COL;3;Americas;53.057.212;1.138.910;36;79;41;53;77;71;89;67;5 - no guarantee of rights
+34;Comoros;COM;1;Africa;944.388;1.861;170;136;115;126;133;115;154;160;NA
+35;Costa Rica;CRI;3;Americas;5.191.824;51.180;72;54;16;7;8;75;40;74;4 - systematic violations
 36;Croatia;HRV;4;Europe;3.866.233;56.594;68;45;64;46;56;30;56;51;2 - repeated violations
-37;Cuba;CUB;1;Americas;9.748.007;109.884;54;50;NA;161;2;36;76;NA;NA
+37;Cuba;CUB;3;Americas;9.748.007;109.884;54;50;NA;161;2;36;76;NA;NA
 38;Cyprus;CYP;4;Europe;983.000;9.251;40;29;82;35;149;165;42;54;NA
 39;Czechia;CZE;4;Europe;10.897.178;78.871;39;31;102;10;95;77;34;41;2 - repeated violations
-40;Democratic Republic of Congo;COD;3;Africa;112.832.000;2.344.858;80;159;143;136;155;10;155;183;4 - systematic violations
+40;Democratic Republic of Congo;COD;1;Africa;112.832.000;2.344.858;80;159;143;136;155;10;155;183;4 - systematic violations
 41;Denmark;DNK;4;Europe;6.028.459;42.947;35;10;14;1;20;11;1;4;1 - sporadic violations
-42;Djibouti;DJI;3;Africa;1.066.809;23.200;158;107;NA;132;93;168;115;112;NA
-43;Dominican Republic;DOM;1;Americas;10.771.504;48.670;63;67;61;64;41;6;90;115;2 - repeated violations
-44;East Timor;TLS;2;Asia;1.391.221;14.874;168;141;86;54;46;43;65;181;NA
-45;Ecuador;ECU;1;Americas;18.103.660;283.561;64;84;25;79;14;126;106;129;5 - no guarantee of rights
-46;Egypt;EGY;3;Africa;107.868.296;1.001.450;41;115;139;134;87;94;121;114;5 - no guarantee of rights
-47;El Salvador;SLV;1;Americas;6.029.976;21.041;104;97;78;152;63;170;111;91;4 - systematic violations
-48;Equatorial Guinea;GNQ;3;Africa;1.668.768;28.051;143;80;NA;166;70;180;162;178;
-49;Eritrea;ERI;3;Africa;3.607.000;117.600;169;164;NA;179;NA;23;167;189;5 - no guarantee of rights
+42;Djibouti;DJI;1;Africa;1.066.809;23.200;158;107;NA;132;93;168;115;112;NA
+43;Dominican Republic;DOM;3;Americas;10.771.504;48.670;63;67;61;64;41;6;90;115;2 - repeated violations
+44;East Timor;TLS;2;Asia-Oceania;1.391.221;14.874;168;141;86;54;46;43;65;181;NA
+45;Ecuador;ECU;3;Americas;18.103.660;283.561;64;84;25;79;14;126;106;129;5 - no guarantee of rights
+46;Egypt;EGY;1;Africa;107.868.296;1.001.450;41;115;139;134;87;94;121;114;5 - no guarantee of rights
+47;El Salvador;SLV;3;Americas;6.029.976;21.041;104;97;78;152;63;170;111;91;4 - systematic violations
+48;Equatorial Guinea;GNQ;1;Africa;1.668.768;28.051;143;80;NA;166;70;180;162;178;
+49;Eritrea;ERI;1;Africa;3.607.000;117.600;169;164;NA;179;NA;23;167;189;5 - no guarantee of rights
 50;Estonia;EST;4;Europe;1.362.954;45.339;95;33;11;5;81;2;13;18;2 - repeated violations
-51;eSwatini (Swaziland);SWZ;3;Africa;1.235.549;17.363;157;109;46;148;116;145;144;121;5 - no guarantee of rights
-52;Ethiopia;ETH;3;Africa;111.652.998;1.104.300;66;150;75;145;23;5;86;159;4 - systematic violations
-53;Fiji;FJI;2;Asia;902.623;18.272;154;89;126;78;169;40;43;102;4 - systematic violations
+51;eSwatini (Swaziland);SWZ;1;Africa;1.235.549;17.363;157;109;46;148;116;145;144;121;5 - no guarantee of rights
+52;Ethiopia;ETH;1;Africa;111.652.998;1.104.300;66;150;75;145;23;5;86;159;4 - systematic violations
+53;Fiji;FJI;2;Asia-Oceania;902.623;18.272;154;89;126;78;169;40;43;102;4 - systematic violations
 54;Finland;FIN;4;Europe;5.657.608;338.145;45;20;2;8;12;25;2;20;2 - repeated violations
 55;France;FRA;4;Europe;69.081.996;643.801;7;26;35;9;42;41;26;32;2 - repeated violations
-56;Gabon;GAB;3;Africa;2.469.296;267.668;124;74;91;115;95;20;125;169;3 - regular violations
-57;Gambia;GMB;3;Africa;2.422.712;11.295;165;156;114;58;171;114;91;155;NA
-58;Georgia;GEO;2;Asia;3.704.500;69.700;101;83;63;101;157;52;50;7;4 - systematic violations
+56;Gabon;GAB;1;Africa;2.469.296;267.668;124;74;91;115;95;20;125;169;3 - regular violations
+57;Gambia;GMB;1;Africa;2.422.712;11.295;165;156;114;58;171;114;91;155;NA
+58;Georgia;GEO;2;Asia-Oceania;3.704.500;69.700;101;83;63;101;157;52;50;7;4 - systematic violations
 59;Germany;DEU;4;Europe;83.497.147;357.581;3;18;9;15;58;103;10;22;1 - sporadic violations
-60;Ghana;GHA;3;Africa;33.742.380;238.537;67;117;88;45;146;58;68;118;2 - repeated violations
+60;Ghana;GHA;1;Africa;33.742.380;238.537;67;117;88;45;146;58;68;118;2 - repeated violations
 61;Greece;GRC;4;Europe;10.372.335;131.957;49;44;77;52;109;110;51;79;4 - systematic violations
-62;Guatemala;GTM;1;Americas;18.079.810;108.889;65;91;81;57;122;118;133;96;5 - no guarantee of rights
-63;Guinea;GIN;3;Africa;17.521.167;245.857;110;135;144;149;75;89;134;156;4 - systematic violations
-64;Guinea-Bissau;GNB;3;Africa;1.852.784;36.125;164;145;NA;150;166;138;151;174;4 - systematic violations
-65;Guyana;GUY;1;Americas;956.044;214.969;116;38;31;92;31;73;77;134;NA
-66;Haiti;HTI;1;Americas;11.867.032;27.750;109;130;NA;146;NA;140;160;179;5 - no guarantee of rights
-67;Honduras;HND;1;Americas;9.892.632;112.492;100;114;67;82;88;142;148;133;5 - no guarantee of rights
+62;Guatemala;GTM;3;Americas;18.079.810;108.889;65;91;81;57;122;118;133;96;5 - no guarantee of rights
+63;Guinea;GIN;1;Africa;17.521.167;245.857;110;135;144;149;75;89;134;156;4 - systematic violations
+64;Guinea-Bissau;GNB;1;Africa;1.852.784;36.125;164;145;NA;150;166;138;151;174;4 - systematic violations
+65;Guyana;GUY;3;Americas;956.044;214.969;116;38;31;92;31;73;77;134;NA
+66;Haiti;HTI;3;Americas;11.867.032;27.750;109;130;NA;146;NA;140;160;179;5 - no guarantee of rights
+67;Honduras;HND;3;Americas;9.892.632;112.492;100;114;67;82;88;142;148;133;5 - no guarantee of rights
 68;Hungary;HUN;4;Europe;9.489.000;93.025;53;46;105;94;143;111;78;52;4 - systematic violations
 69;Iceland;ISL;4;Europe;394.530;103.000;99;6;1;25;9;68;11;26;1 - sporadic violations
-70;India;IND;2;Asia;1.417.492.000;3.287.263;4;120;131;105;151;127;82;63;5 - no guarantee of rights
-71;Indonesia;IDN;2;Asia;288.315.089;1.904.569;17;99;97;99;113;151;101;73;5 - no guarantee of rights
-72;Iran;IRN;2;Asia;86.563.000;1.648.195;42;112;145;141;176;7;145;127;5 - no guarantee of rights
-73;Iraq;IRQ;2;Asia;46.118.793;438.317;52;98;NA;111;80;176;127;172;5 - no guarantee of rights
+70;India;IND;2;Asia-Oceania;1.417.492.000;3.287.263;4;120;131;105;151;127;82;63;5 - no guarantee of rights
+71;Indonesia;IDN;2;Asia-Oceania;288.315.089;1.904.569;17;99;97;99;113;151;101;73;5 - no guarantee of rights
+72;Iran;IRN;2;Asia-Oceania;86.563.000;1.648.195;42;112;145;141;176;7;145;127;5 - no guarantee of rights
+73;Iraq;IRQ;2;Asia-Oceania;46.118.793;438.317;52;98;NA;111;80;176;127;172;5 - no guarantee of rights
 74;Ireland;IRL;4;Europe;5.458.600;70.273;23;4;10;6;98;155;15;24;1 - sporadic violations
-75;Israel;ISR;2;Asia;10.196.700;21.937;26;17;76;48;103;17;32;35;4 - systematic violations
-76;Ivory Coast;CIV;3;Africa;31.719.275;322.462;70;116;127;109;154;49;67;110;3 - regular violations
-77;Jamaica;JAM;1;Americas;2.774.538;10.991;122;78;38;32;82;26;64;71;3 - regular violations
-78;Japan;JPN;2;Asia;122.850.000;377.915;5;34;118;24;142;147;19;29;2 - repeated violations
-79;Jordan;JOR;2;Asia;11.937.000;89.318;89;103;122;102;126;66;52;75;5 - no guarantee of rights
-80;Kazakhstan;KAZ;2;Asia;20.518.005;2.724.910;48;62;92;127;131;141;87;25;5 - no guarantee of rights
-81;Kenya;KEN;3;Africa;53.330.978;580.367;62;127;98;74;106;117;122;56;4 - systematic violations
+75;Israel;ISR;2;Asia-Oceania;10.196.700;21.937;26;17;76;48;103;17;32;35;4 - systematic violations
+76;Ivory Coast;CIV;1;Africa;31.719.275;322.462;70;116;127;109;154;49;67;110;3 - regular violations
+77;Jamaica;JAM;3;Americas;2.774.538;10.991;122;78;38;32;82;26;64;71;3 - regular violations
+78;Japan;JPN;2;Asia-Oceania;122.850.000;377.915;5;34;118;24;142;147;19;29;2 - repeated violations
+79;Jordan;JOR;2;Asia-Oceania;11.937.000;89.318;89;103;122;102;126;66;52;75;5 - no guarantee of rights
+80;Kazakhstan;KAZ;2;Asia-Oceania;20.518.005;2.724.910;48;62;92;127;131;141;87;25;5 - no guarantee of rights
+81;Kenya;KEN;1;Africa;53.330.978;580.367;62;127;98;74;106;117;122;56;4 - systematic violations
 82;Kosovo;XKX;4;Europe;1.585.566;10.887;144;77;NA;71;NA;144;69;57;NA
-83;Kuwait;KWT;2;Asia;4.881.254;17.818;59;40;128;130;Suspended;161;58;83;5 - no guarantee of rights
-84;Kyrgyzstan;KGZ;2;Asia;7.281.800;199.949;126;124;95;114;111;61;135;NA;5 - no guarantee of rights
-85;Laos;LAO;2;Asia;7.647.000;236.800;134;132;96;139;112;128;102;154;5 - no guarantee of rights
+83;Kuwait;KWT;2;Asia-Oceania;4.881.254;17.818;59;40;128;130;Suspended;161;58;83;5 - no guarantee of rights
+84;Kyrgyzstan;KGZ;2;Asia-Oceania;7.281.800;199.949;126;124;95;114;111;61;135;NA;5 - no guarantee of rights
+85;Laos;LAO;2;Asia-Oceania;7.647.000;236.800;134;132;96;139;112;128;102;154;5 - no guarantee of rights
 86;Latvia;LVA;4;Europe;1.823.500;64.594;92;47;21;20;70;150;33;19;2 - repeated violations
-87;Lebanon;LBN;2;Asia;5.490.000;10.452;115;100;136;103;173;132;146;143;4 - systematic violations
-88;Lesotho;LSO;3;Africa;2.116.427;30.355;166;154;99;62;99;54;92;122;4 - systematic violations
-89;Liberia;LBR;3;Africa;5.248.621;111.369;156;155;40;76;162;137;128;175;4 - systematic violations
-90;Libya;LBY;3;Africa;7.459.000;1.759.540;97;90;NA;147;139;12;168;186;5 - no guarantee of rights
+87;Lebanon;LBN;2;Asia-Oceania;5.490.000;10.452;115;100;136;103;173;132;146;143;4 - systematic violations
+88;Lesotho;LSO;1;Africa;2.116.427;30.355;166;154;99;62;99;54;92;122;4 - systematic violations
+89;Liberia;LBR;1;Africa;5.248.621;111.369;156;155;40;76;162;137;128;175;4 - systematic violations
+90;Libya;LBY;1;Africa;7.459.000;1.759.540;97;90;NA;147;139;12;168;186;5 - no guarantee of rights
 91;Liechtenstein;LIE;4;Europe;41.024;160;150;2;NA;NA;62;139;177;NA;NA
 92;Lithuania;LTU;4;Europe;2.885.752;65.286;75;35;19;27;85;107;27;11;2 - repeated violations
 93;Luxembourg;LUX;4;Europe;681.973;2.586;74;3;50;17;48;14;8;72;NA
-94;Madagascar;MDG;3;Africa;31.727.042;587.041;127;165;58;113;150;15;138;161;4 - systematic violations
-95;Malawi;MWI;3;Africa;20.734.262;118.484;133;162;NA;70;120;120;103;109;2 - repeated violations
-96;Malaysia;MYS;2;Asia;34.334.400;330.621;34;64;108;88;153;35;47;12;5 - no guarantee of rights
-97;Maldives;MDV;2;Asia;515.132;300;153;NA;138;77;180;NA;83;147;NA
-98;Mali;MLI;3;Africa;22.395.489;1.240.192;114;151;140;122;73;113;129;148;4 - systematic violations
+94;Madagascar;MDG;1;Africa;31.727.042;587.041;127;165;58;113;150;15;138;161;4 - systematic violations
+95;Malawi;MWI;1;Africa;20.734.262;118.484;133;162;NA;70;120;120;103;109;2 - repeated violations
+96;Malaysia;MYS;2;Asia-Oceania;34.334.400;330.621;34;64;108;88;153;35;47;12;5 - no guarantee of rights
+97;Maldives;MDV;2;Asia-Oceania;515.132;300;153;NA;138;77;180;NA;83;147;NA
+98;Mali;MLI;1;Africa;22.395.489;1.240.192;114;151;140;122;73;113;129;148;4 - systematic violations
 99;Malta;MLT;4;Europe;574.250;315;112;24;68;43;78;104;53;88;NA
-100;Mauritania;MRT;3;Africa;4.927.532;1.030.700;146;125;NA;129;107;124;123;152;5 - no guarantee of rights
-101;Mauritius;MUS;3;Africa;1.241.856;2.096;139;66;111;38;136;42;54;13;3 - regular violations
-102;Mexico;MEX;1;Americas;131.001.723;1.964.375;13;63;23;110;5;119;131;60;3 - regular violations
+100;Mauritania;MRT;1;Africa;4.927.532;1.030.700;146;125;NA;129;107;124;123;152;5 - no guarantee of rights
+101;Mauritius;MUS;1;Africa;1.241.856;2.096;139;66;111;38;136;42;54;13;3 - regular violations
+102;Mexico;MEX;3;Americas;131.001.723;1.964.375;13;63;23;110;5;119;131;60;3 - regular violations
 103;Moldova;MDA;4;Europe;2.381.300;33.847;128;92;7;73;29;67;70;48;2 - repeated violations
 104;Monaco;MCO;4;Europe;38.423;2;148;1;NA;NA;11;169;NA;NA;NA
-105;Mongolia;MNG;2;Asia;3.544.835;1.564.116;119;87;65;75;97;NA;116;81;NA
+105;Mongolia;MNG;2;Asia-Oceania;3.544.835;1.564.116;119;87;65;75;97;NA;116;81;NA
 106;Montenegro;MNE;4;Europe;623.327;13.812;149;61;84;66;89;37;59;50;3 - regular violations
-107;Morocco;MAR;3;Africa;36.828.330;446.550;57;102;137;107;102;102;84;53;3 - regular violations
-108;Mozambique;MOZ;3;Africa;34.090.466;799.380;120;163;53;118;36;101;152;138;3 - regular violations
-109;Myanmar;MMR;2;Asia;51.375.327;676.578;87;149;NA;177;Suspended;50;161;165;5 - no guarantee of rights
-110;Namibia;NAM;3;Africa;3.022.401;824.292;141;101;8;60;22;51;60;104;3 - regular violations
-111;Nepal;NPL;2;Asia;29.911.840;147.181;98;140;125;65;54;76;104;94;3 - regular violations
+107;Morocco;MAR;1;Africa;36.828.330;446.550;57;102;137;107;102;102;84;53;3 - regular violations
+108;Mozambique;MOZ;1;Africa;34.090.466;799.380;120;163;53;118;36;101;152;138;3 - regular violations
+109;Myanmar;MMR;2;Asia-Oceania;51.375.327;676.578;87;149;NA;177;Suspended;50;161;165;5 - no guarantee of rights
+110;Namibia;NAM;1;Africa;3.022.401;824.292;141;101;8;60;22;51;60;104;3 - regular violations
+111;Nepal;NPL;2;Asia-Oceania;29.911.840;147.181;98;140;125;65;54;76;104;94;3 - regular violations
 112;Netherlands;NLD;4;Europe;18.131.264;41.865;18;11;43;18;32;88;9;42;2 - repeated violations
-113;New Zealand;NZL;2;Asia;5.342.000;268.838;51;25;5;14;13;28;4;1;2 - repeated violations
-114;Nicaragua;NIC;1;Americas;6.874.748;130.373;125;119;18;175;3;83;165;142;NA
-115;Niger;NER;3;Africa;27.522.750;1.267.000;121;157;142;116;126;122;117;132;4 - systematic violations
-116;Nigeria;NGA;3;Africa;223.800.000;923.768;46;144;124;96;179;172;136;131;5 - no guarantee of rights
-117;North Korea;PRK;2;Asia;25.950.000;120.538;137;166;NA;178;137;3;163;NA;NA
+113;New Zealand;NZL;2;Asia-Oceania;5.342.000;268.838;51;25;5;14;13;28;4;1;2 - repeated violations
+114;Nicaragua;NIC;3;Americas;6.874.748;130.373;125;119;18;175;3;83;165;142;NA
+115;Niger;NER;1;Africa;27.522.750;1.267.000;121;157;142;116;126;122;117;132;4 - systematic violations
+116;Nigeria;NGA;1;Africa;223.800.000;923.768;46;144;124;96;179;172;136;131;5 - no guarantee of rights
+117;North Korea;PRK;2;Asia-Oceania;25.950.000;120.538;137;166;NA;178;137;3;163;NA;NA
 118;North Macedonia;MKD;4;Europe;1.822.612;25.713;129;69;90;85;33;1;79;17;4 - systematic violations
 119;Norway;NOR;4;Europe;5.627.400;386.224;30;8;3;3;17;90;5;9;1 - sporadic violations
-120;Oman ;OMN;2;Asia;5.359.557;309.500;73;55;134;125;183;16;48;68;3 - regular violations
-121;Pakistan;PAK;2;Asia;241.499.431;882.363;40;139;148;117;138;134;130;108;5 - no guarantee of rights
-122;Palestine;PSE;2;Asia;5.483.450;6.020;146;131;NA;160;NA;158;NA;NA;5 - no guarantee of rights
-123;Panama;PAN;1;Americas;4.064.780;75.320;77;53;51;49;114;53;107;86;4 - systematic violations
-124;Papua New Guinea;PNG;2;Asia;10.185.363;462.840;107;128;133;80;181;130;137;120;NA
-125;Paraguay;PRY;1;Americas;6.109.644;406.752;93;86;87;83;104;116;142;125;3 - regular violations
-126;Peru;PER;1;Americas;34.350.244;1.285.216;47;75;57;63;24;78;124;76;4 - systematic violations
-127;Philippines;PHL;2;Asia;114.123.600;300.000;31;108;20;100;86;31;112;95;5 - no guarantee of rights
+120;Oman ;OMN;2;Asia-Oceania;5.359.557;309.500;73;55;134;125;183;16;48;68;3 - regular violations
+121;Pakistan;PAK;2;Asia-Oceania;241.499.431;882.363;40;139;148;117;138;134;130;108;5 - no guarantee of rights
+122;Palestine;PSE;2;Asia-Oceania;5.483.450;6.020;146;131;NA;160;NA;158;NA;NA;5 - no guarantee of rights
+123;Panama;PAN;3;Americas;4.064.780;75.320;77;53;51;49;114;53;107;86;4 - systematic violations
+124;Papua New Guinea;PNG;2;Asia-Oceania;10.185.363;462.840;107;128;133;80;181;130;137;120;NA
+125;Paraguay;PRY;3;Americas;6.109.644;406.752;93;86;87;83;104;116;142;125;3 - regular violations
+126;Peru;PER;3;Americas;34.350.244;1.285.216;47;75;57;63;24;78;124;76;4 - systematic violations
+127;Philippines;PHL;2;Asia-Oceania;114.123.600;300.000;31;108;20;100;86;31;112;95;5 - no guarantee of rights
 128;Poland;POL;4;Europe;37.332.000;312.685;20;42;45;36;66;179;46;40;3 - regular violations
 129;Portugal;PRT;4;Europe;10.749.635;156.597;43;39;34;26;44;8;41;39;2 - repeated violations
-130;Qatar;QAT;2;Asia;3.214.609;11.586;55;13;NA;151;177;84;36;77;5 - no guarantee of rights
-131;Republic of Congo;COG;3;Africa;6.142.180;342.000;138;129;NA;135;146;163;143;180;3 - regular violations
+130;Qatar;QAT;2;Asia-Oceania;3.214.609;11.586;55;13;NA;151;177;84;36;77;5 - no guarantee of rights
+131;Republic of Congo;COG;1;Africa;6.142.180;342.000;138;129;NA;135;146;163;143;180;3 - regular violations
 132;Romania;ROU;4;Europe;19.036.031;238.398;37;49;94;69;110;79;63;55;3 - regular violations
-133;Russia;RUS;2;Asia;146.028.325;17.098.246;9;60;NA;162;140;55;149;28;5 - no guarantee of rights
-134;Rwanda;RWA;3;Africa;14.104.969;26.338;142;152;39;153;1;171;37;38;3 - regular violations
-135;Samoa;WSM;2;Asia;205.557;2.842;171;93;NA;NA;166;146;NA;98;NA
-136;Saudi Arabia;SAU;2;Asia;35.300.280;2.149.690;19;36;132;167;124;162;39;62;5 - no guarantee of rights
-137;Senegal;SEN;3;Africa;18.593.258;196.712;102;134;116;68;26;156;61;123;4 - systematic violations
+133;Russia;RUS;2;Asia-Oceania;146.028.325;17.098.246;9;60;NA;162;140;55;149;28;5 - no guarantee of rights
+134;Rwanda;RWA;1;Africa;14.104.969;26.338;142;152;39;153;1;171;37;38;3 - regular violations
+135;Samoa;WSM;2;Asia-Oceania;205.557;2.842;171;93;NA;NA;166;146;NA;98;NA
+136;Saudi Arabia;SAU;2;Asia-Oceania;35.300.280;2.149.690;19;36;132;167;124;162;39;62;5 - no guarantee of rights
+137;Senegal;SEN;1;Africa;18.593.258;196.712;102;134;116;68;26;156;61;123;4 - systematic violations
 138;Serbia;SRB;4;Europe;6.567.783;88.499;69;59;26;112;40;74;108;44;4 - systematic violations
-139;Seychelles;SYC;3;Africa;122.729;457;167;52;NA;31;82;123;24;100;NA
-140;Sierra Leone;SLE;3;Africa;9.077.691;72.300;151;153;112;90;76;56;105;163;4 - systematic violations
-141;Singapore;SGP;2;Asia;6.110.200;745;26;7;47;87;60;135;3;2;2 - repeated violations
+139;Seychelles;SYC;1;Africa;122.729;457;167;52;NA;31;82;123;24;100;NA
+140;Sierra Leone;SLE;1;Africa;9.077.691;72.300;151;153;112;90;76;56;105;163;4 - systematic violations
+141;Singapore;SGP;2;Asia-Oceania;6.110.200;745;26;7;47;87;60;135;3;2;2 - repeated violations
 142;Slovakia;SVK;4;Europe;5.413.191;49.035;58;41;70;50;107;136;55;45;2 - repeated violations
 143;Slovenia;SVN;4;Europe;2.133.852;20.273;81;30;29;47;45;96;38;37;NA
-144;Somalia;SOM;3;Africa;19.655.000;637.657;145;160;NA;128;130;109;171;190;5 - no guarantee of rights
-145;South Africa;ZAF;3;Africa;63.100.945;1.219.090;38;92;33;39;16;32;71;84;3 - regular violations
-146;South Korea;KOR;2;Asia;51.111.158;100.432;15;32;101;22;121;38;30;5;5 - no guarantee of rights
-147;South Sudan;SSD;3;Africa;15.786.898;644.329;155;170;NA;156;58;33;172;185;5 - no guarantee of rights
+144;Somalia;SOM;1;Africa;19.655.000;637.657;145;160;NA;128;130;109;171;190;5 - no guarantee of rights
+145;South Africa;ZAF;1;Africa;63.100.945;1.219.090;38;92;33;39;16;32;71;84;3 - regular violations
+146;South Korea;KOR;2;Asia-Oceania;51.111.158;100.432;15;32;101;22;121;38;30;5;5 - no guarantee of rights
+147;South Sudan;SSD;1;Africa;15.786.898;644.329;155;170;NA;156;58;33;172;185;5 - no guarantee of rights
 148;Spain;ESP;4;Europe;49.570.725;505.370;12;29;12;21;19;4;44;30;2 - repeated violations
-149;Sri Lanka;LKA;2;Asia;21.781.800;67.240;76;111;130;44;166;98;98;99;4 - systematic violations
-150;Sudan;SDN;3;Africa;51.662.000;1.878.000;103;161;147;173;Suspended;45;166;171;5 - no guarantee of rights
-151;Suriname;SUR;1;Americas;616.500;163.820;159;88;52;41;64;177;88;162;NA
+149;Sri Lanka;LKA;2;Asia-Oceania;21.781.800;67.240;76;111;130;44;166;98;98;99;4 - systematic violations
+150;Sudan;SDN;1;Africa;51.662.000;1.878.000;103;161;147;173;Suspended;45;166;171;5 - no guarantee of rights
+151;Suriname;SUR;3;Americas;616.500;163.820;159;88;52;41;64;177;88;162;NA
 152;Sweden;SWE;4;Europe;10.604.464;450.295;24;15;6;2;14;108;6;10;1 - sporadic violations
 153;Switzerland;CHE;4;Europe;9.104.063;41.291;21;5;17;4;35;121;7;36;3 - regular violations
-154;Syria;SYR;2;Asia;25.620.427;185.180;135;158;NA;163;NA;85;164;176;5 - no guarantee of rights
-155;Taiwan;TWN;2;Asia;10.499.000;35.980;21;30;NA;29;NA;153;25;15;2 - repeated violations
-156;Tajikistan;TJK;2;Asia;10.499.000;144.100;131;137;129;168;82;174;156;106;NA
-157;Tanzania;TZA;3;Africa;68.153.004;947.303;78;165;55;98;39;39;80;141;4 - systematic violations
-158;Thailand;THA;2;Asia;65.826.149;513.120;29;82;66;95;126;46;109;21;5 - no guarantee of rights
-159;Togo;TGO;3;Africa;8.095.498;56.785;147;147;121;121;144;19;113;97;3 - regular violations
-160;Tonga;TON;2;Asia;100.179;747;172;94;NA;NA;165;129;NA;103;NA
-161;Trinidad and Tobago;TTO;1;Americas;1.367.764;5.127;118;56;28;34;104;159;72;105;4 - systematic violations
-162;Tunisia;TUN;3;Africa;11.972.169;163.610;88;105;123;104;141;24;85;78;5 - no guarantee of rights
-163;Turkey;TUR;2;Asia;86.092.168;783.562;16;57;135;140;124;95;118;33;5 - no guarantee of rights
-164;Turkmenistan;TKM;2;Asia;7.057.841;488.100;84;70;NA;174;94;143;158;NA;NA
-165;Uganda;UGA;3;Africa;45.905.417;241.550;85;143;80;119;51;62;139;116;4 - systematic violations
+154;Syria;SYR;2;Asia-Oceania;25.620.427;185.180;135;158;NA;163;NA;85;164;176;5 - no guarantee of rights
+155;Taiwan;TWN;2;Asia-Oceania;10.499.000;35.980;21;30;NA;29;NA;153;25;15;2 - repeated violations
+156;Tajikistan;TJK;2;Asia-Oceania;10.499.000;144.100;131;137;129;168;82;174;156;106;NA
+157;Tanzania;TZA;1;Africa;68.153.004;947.303;78;165;55;98;39;39;80;141;4 - systematic violations
+158;Thailand;THA;2;Asia-Oceania;65.826.149;513.120;29;82;66;95;126;46;109;21;5 - no guarantee of rights
+159;Togo;TGO;1;Africa;8.095.498;56.785;147;147;121;121;144;19;113;97;3 - regular violations
+160;Tonga;TON;2;Asia-Oceania;100.179;747;172;94;NA;NA;165;129;NA;103;NA
+161;Trinidad and Tobago;TTO;3;Americas;1.367.764;5.127;118;56;28;34;104;159;72;105;4 - systematic violations
+162;Tunisia;TUN;1;Africa;11.972.169;163.610;88;105;123;104;141;24;85;78;5 - no guarantee of rights
+163;Turkey;TUR;2;Asia-Oceania;86.092.168;783.562;16;57;135;140;124;95;118;33;5 - no guarantee of rights
+164;Turkmenistan;TKM;2;Asia-Oceania;7.057.841;488.100;84;70;NA;174;94;143;158;NA;NA
+165;Uganda;UGA;1;Africa;45.905.417;241.550;85;143;80;119;51;62;139;116;4 - systematic violations
 166;Ukraine;UKR;4;Europe;28.700.000;603.550;56;108;62;108;118;59;96;64;5 - no guarantee of rights
-167;United Arab Emirates;ARE;2;Asia;11.294.243;83.600;28;23;69;155;6;57;23;16;5 - no guarantee of rights
+167;United Arab Emirates;ARE;2;Asia-Oceania;11.294.243;83.600;28;23;69;155;6;57;23;16;5 - no guarantee of rights
 168;United Kingdom;GBR;4;Europe;69.487.000;244.376;6;19;4;30;28;148;20;8;4 - systematic violations
-169;United States;USA;1;Americas;341.784.857;9.525.067;1;9;42;51;79;160;28;6;4 - systematic violations
-170;Uruguay;URY;1;Americas;3.485.931;176.215;78;48;71;13;66;173;17;101;2 - repeated violations
-171;Uzbekistan;UZB;2;Asia;38.236.704;447.400;60;113;110;154;38;44;119;69;NA
-172;Venezuela;VEN;1;Americas;28.517.000;912.050;83;121;NA;170;61;99;170;188;5 - no guarantee of rights
-173;Vietnam;VNM;2;Asia;102.300.000;331.340;33;104;74;144;64;154;73;70;4 - systematic violations
-174;Yemen;YEM;2;Asia;32.684.503;455.503;136;169;NA;169;183;27;169;187;5 - no guarantee of rights
-175;Zambia;ZMB;3;Africa;19.693.423;752.612;106;142;79;84;144;82;93;85;4 - systematic violations
-176;Zimbabwe;ZWE;3;Africa;17.073.087;390.757;91;118;49;123;73;106;150;140;5 - no guarantee of rights
+169;United States;USA;3;Americas;341.784.857;9.525.067;1;9;42;51;79;160;28;6;4 - systematic violations
+170;Uruguay;URY;3;Americas;3.485.931;176.215;78;48;71;13;66;173;17;101;2 - repeated violations
+171;Uzbekistan;UZB;2;Asia-Oceania;38.236.704;447.400;60;113;110;154;38;44;119;69;NA
+172;Venezuela;VEN;3;Americas;28.517.000;912.050;83;121;NA;170;61;99;170;188;5 - no guarantee of rights
+173;Vietnam;VNM;2;Asia-Oceania;102.300.000;331.340;33;104;74;144;64;154;73;70;4 - systematic violations
+174;Yemen;YEM;2;Asia-Oceania;32.684.503;455.503;136;169;NA;169;183;27;169;187;5 - no guarantee of rights
+175;Zambia;ZMB;1;Africa;19.693.423;752.612;106;142;79;84;144;82;93;85;4 - systematic violations
+176;Zimbabwe;ZWE;1;Africa;17.073.087;390.757;91;118;49;123;73;106;150;140;5 - no guarantee of rights

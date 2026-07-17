@@ -664,7 +664,7 @@
             let targetItem = null;
             let targetCenter = null;
             let targetAttempts = 0;
-            const maxTargetAttempts = 4;
+            const maxTargetAttempts = 3;
             const maxTargetSeconds = 120;
             let targetTimerSecondsLeft = maxTargetSeconds;
             let targetTimerId = null;
@@ -821,15 +821,15 @@
                     { label: 'Area geografica / Geographic Area', value: targetItem.area || 'n/d' },
                     { label: 'Popolazione / Population', value: targetItem.population || 'n/d' },
                     { label: 'Superficie / Surface (km2)', value: targetItem.surface || 'n/d' },
-                    { label: 'Prodotto Interno Lordo nominale / Nominal Gross Domestic Product', value: targetAttempts >= 1 ? (targetItem.pil || 'n/d') : '---' },
-                    { label: 'Donne in parlamento / Women in Parliament', value: targetAttempts >= 1 ? (targetItem.womenInParliament || 'n/d') : '---' },
-                    { label: 'Lotta alla corruzione / Fight against corruption', value: targetAttempts >= 1 ? (targetItem.corruption || 'n/d') : '---' },                    
-                    { label: 'Prodotto Interno Lordo pro capite / pro capita Gross Domestic Product ', value: targetAttempts >= 2 ? (targetItem.pilPro || 'n/d') : '---' },                    
-                    { label: 'Democrazia liberale / Liberal democracy', value: targetAttempts >= 2 ? (targetItem.democracy || 'n/d') : '---' },
-                    { label: 'Protezione dei lavoratori / Workers\' protection', value: targetAttempts >= 2 ? (targetItem.workers || 'n/d') : '---' },                   
-                    { label: 'Uguaglianza di genere / Gender equality', value: targetAttempts >= 3 ? (targetItem.parity || 'n/d') : '---' },
-                    { label: 'Libertà di stampa / Freedom of the press', value: targetAttempts >= 3 ? (targetItem.press || 'n/d') : '---' },
-                    { label: 'Facilità di fare affari / Ease of doing business', value: targetAttempts >= 3 ? (targetItem.business || 'n/d') : '---' },                    
+                    { label: 'Prodotto Interno Lordo nominale / Nominal Gross Domestic Product', value: targetItem.pil || 'n/d' },
+                    { label: 'Donne in parlamento / Women in Parliament', value: targetItem.womenInParliament || 'n/d'},
+                    { label: 'Lotta alla corruzione / Fight against corruption', value: targetItem.corruption || 'n/d'},                    
+                    { label: 'Prodotto Interno Lordo pro capite / pro capita Gross Domestic Product ', value: targetAttempts >= 1 ? (targetItem.pilPro || 'n/d') : '---' },                    
+                    { label: 'Democrazia liberale / Liberal democracy', value: targetAttempts >= 1 ? (targetItem.democracy || 'n/d') : '---' },
+                    { label: 'Protezione dei lavoratori / Workers\' protection', value: targetAttempts >= 1 ? (targetItem.workers || 'n/d') : '---' },                   
+                    { label: 'Uguaglianza di genere / Gender equality', value: targetAttempts >= 2 ? (targetItem.parity || 'n/d') : '---' },
+                    { label: 'Libertà di stampa / Freedom of the press', value: targetAttempts >= 2 ? (targetItem.press || 'n/d') : '---' },
+                    { label: 'Facilità di fare affari / Ease of doing business', value: targetAttempts >= 2 ? (targetItem.business || 'n/d') : '---' },                    
                 ];
 
                 questionDisplayEl.innerHTML =
@@ -934,13 +934,15 @@
                 }) || null;
                 updateStatusWithTarget("🎯 " + sourceLabel + ":");
                 updateFooterAttempts();
+                startTargetTimer();
+                /*
                 if(targetAttempts >= 1){
                     startTargetTimer();
                 }   
                 else{
                     stopTargetTimer();
                 }             
-                
+                */
                 renderQuestionDisplay();
                 renderSolutionDisplay();
 

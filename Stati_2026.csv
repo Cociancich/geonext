@@ -1,4 +1,4 @@
-id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia;donne_in_parl;stampa;corruzione;affari;lavoratori
+﻿id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia;donne_in_parl;stampa;corruzione;affari;lavoratori
 1;Afghanistan;AFG;2;Asia;43.844.000;652.864;132;168;NA;176;Suspended;175;159;173;5 - no guarantee of rights
 2;Albania;ALB;4;Europe;2.363.314;28.748;108;68;36;81;48;100;81;82;3 - regular violations
 3;Algeria;DZA;3;Africa;47.400.000;2.381.741;50;96;141;131;172;80;99;157;5 - no guarantee of rights
@@ -12,14 +12,14 @@ id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia
 11;Bangladesh;BGD;2;Asia;169.828.911;148.460;32;122;24;133;Suspended;18;140;168;5 - no guarantee of rights
 12;Belarus;BLR;4;Europe;9.109.280;207.600;79;73;54;172;52;92;114;49;5 - no guarantee of rights
 13;Belgium;BEL;4;Europe;11.928.465;30.528;22;17;27;11;25;105;22;46;3 - regular violations
-14;Belize;BLZ;1;Americas;417.634;22.965;162;81;89;#N/D;156;149;95;135;3 - regular violations
+14;Belize;BLZ;1;Americas;417.634;22.965;162;81;89;NA;156;149;95;135;3 - regular violations
 15;Benin;BEN;3;Africa;13.224.860;114.763;117;138;113;93;91;70;62;149;4 - systematic violations
 16;Bhutan;BTN;2;Asia;784.043;38.394;161;106;119;72;178;157;18;89;NA
 17;Bolivia;BOL;1;Americas;11.365.333;1.098.581;90;110;48;89;4;86;126;150;3 - regular violations
 18;Bosnia and Herzegovina;BIH;4;Europe;3.412.000;51.209;105;72;73;91;129;166;100;90;3 - regular violations
 19;Botswana;BWA;3;Africa;2.359.609;582.000;130;85;60;59;170;47;35;87;4 - systematic violations
 20;Brazil;BRA;1;Americas;213.421.037;8.510.346;11;71;72;28;134;93;97;124;4 - systematic violations
-21;Brunei;BRN;2;Asia;455.500;5.765;140;37;107;#N/D;159;63;31;66;NA
+21;Brunei;BRN;2;Asia;455.500;5.765;140;37;107;NA;159;63;31;66;NA
 22;Bulgaria;BGR;4;Europe;6.437.360;110.879;61;51;83;67;99;97;74;61;3 - regular violations
 23;Burkina Faso;BFA;3;Africa;24.070.553;274.200;111;146;120;142;132;152;75;151;4 - systematic violations
 24;Burundi;BDI;3;Africa;12.332.788;27.834;152;167;44;159;30;81;157;166;5 - no guarantee of rights
@@ -61,7 +61,7 @@ id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia
 60;Ghana;GHA;3;Africa;33.742.380;238.537;67;117;88;45;146;58;68;118;2 - repeated violations
 61;Greece;GRC;4;Europe;10.372.335;131.957;49;44;77;52;109;110;51;79;4 - systematic violations
 62;Guatemala;GTM;1;Americas;18.079.810;108.889;65;91;81;57;122;118;133;96;5 - no guarantee of rights
-63;Guinea;GIN;3;Africa;"17521167	";245.857;110;135;144;149;75;89;134;156;4 - systematic violations
+63;Guinea;GIN;3;Africa;17.521.167;245.857;110;135;144;149;75;89;134;156;4 - systematic violations
 64;Guinea-Bissau;GNB;3;Africa;1.852.784;36.125;164;145;NA;150;166;138;151;174;4 - systematic violations
 65;Guyana;GUY;1;Americas;956.044;214.969;116;38;31;92;31;73;77;134;NA
 66;Haiti;HTI;1;Americas;11.867.032;27.750;109;130;NA;146;NA;140;160;179;5 - no guarantee of rights
@@ -73,14 +73,14 @@ id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia
 72;Iran;IRN;2;Asia;86.563.000;1.648.195;42;112;145;141;176;7;145;127;5 - no guarantee of rights
 73;Iraq;IRQ;2;Asia;46.118.793;438.317;52;98;NA;111;80;176;127;172;5 - no guarantee of rights
 74;Ireland;IRL;4;Europe;5.458.600;70.273;23;4;10;6;98;155;15;24;1 - sporadic violations
-75;Israel;ISR;2;Asia;"10196700	";21.937;26;17;76;48;103;17;32;35;4 - systematic violations
+75;Israel;ISR;2;Asia;10.196.700;21.937;26;17;76;48;103;17;32;35;4 - systematic violations
 76;Ivory Coast;CIV;3;Africa;31.719.275;322.462;70;116;127;109;154;49;67;110;3 - regular violations
 77;Jamaica;JAM;1;Americas;2.774.538;10.991;122;78;38;32;82;26;64;71;3 - regular violations
 78;Japan;JPN;2;Asia;122.850.000;377.915;5;34;118;24;142;147;19;29;2 - repeated violations
 79;Jordan;JOR;2;Asia;11.937.000;89.318;89;103;122;102;126;66;52;75;5 - no guarantee of rights
 80;Kazakhstan;KAZ;2;Asia;20.518.005;2.724.910;48;62;92;127;131;141;87;25;5 - no guarantee of rights
 81;Kenya;KEN;3;Africa;53.330.978;580.367;62;127;98;74;106;117;122;56;4 - systematic violations
-82;Kosovo;XKX;4;Europe;1.585.566;10.887;144;77;NA;71;#N/D;144;69;57;NA
+82;Kosovo;XKX;4;Europe;1.585.566;10.887;144;77;NA;71;NA;144;69;57;NA
 83;Kuwait;KWT;2;Asia;4.881.254;17.818;59;40;128;130;Suspended;161;58;83;5 - no guarantee of rights
 84;Kyrgyzstan;KGZ;2;Asia;7.281.800;199.949;126;124;95;114;111;61;135;NA;5 - no guarantee of rights
 85;Laos;LAO;2;Asia;7.647.000;236.800;134;132;96;139;112;128;102;154;5 - no guarantee of rights
@@ -89,7 +89,7 @@ id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia
 88;Lesotho;LSO;3;Africa;2.116.427;30.355;166;154;99;62;99;54;92;122;4 - systematic violations
 89;Liberia;LBR;3;Africa;5.248.621;111.369;156;155;40;76;162;137;128;175;4 - systematic violations
 90;Libya;LBY;3;Africa;7.459.000;1.759.540;97;90;NA;147;139;12;168;186;5 - no guarantee of rights
-91;Liechtenstein;LIE;4;Europe;41.024;160;150;2;NA;#N/D;62;139;177;NA;NA
+91;Liechtenstein;LIE;4;Europe;41.024;160;150;2;NA;NA;62;139;177;NA;NA
 92;Lithuania;LTU;4;Europe;2.885.752;65.286;75;35;19;27;85;107;27;11;2 - repeated violations
 93;Luxembourg;LUX;4;Europe;681.973;2.586;74;3;50;17;48;14;8;72;NA
 94;Madagascar;MDG;3;Africa;31.727.042;587.041;127;165;58;113;150;15;138;161;4 - systematic violations
@@ -102,7 +102,7 @@ id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia
 101;Mauritius;MUS;3;Africa;1.241.856;2.096;139;66;111;38;136;42;54;13;3 - regular violations
 102;Mexico;MEX;1;Americas;131.001.723;1.964.375;13;63;23;110;5;119;131;60;3 - regular violations
 103;Moldova;MDA;4;Europe;2.381.300;33.847;128;92;7;73;29;67;70;48;2 - repeated violations
-104;Monaco;MCO;4;Europe;38.423;2;148;1;NA;#N/D;11;169;NA;NA;NA
+104;Monaco;MCO;4;Europe;38.423;2;148;1;NA;NA;11;169;NA;NA;NA
 105;Mongolia;MNG;2;Asia;3.544.835;1.564.116;119;87;65;75;97;NA;116;81;NA
 106;Montenegro;MNE;4;Europe;623.327;13.812;149;61;84;66;89;37;59;50;3 - regular violations
 107;Morocco;MAR;3;Africa;36.828.330;446.550;57;102;137;107;102;102;84;53;3 - regular violations
@@ -120,7 +120,7 @@ id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia
 119;Norway;NOR;4;Europe;5.627.400;386.224;30;8;3;3;17;90;5;9;1 - sporadic violations
 120;Oman ;OMN;2;Asia;5.359.557;309.500;73;55;134;125;183;16;48;68;3 - regular violations
 121;Pakistan;PAK;2;Asia;241.499.431;882.363;40;139;148;117;138;134;130;108;5 - no guarantee of rights
-122;Palestine;PSE;2;Asia;5.483.450;6.020;146;131;NA;160;#N/D;158;NA;NA;5 - no guarantee of rights
+122;Palestine;PSE;2;Asia;5.483.450;6.020;146;131;NA;160;NA;158;NA;NA;5 - no guarantee of rights
 123;Panama;PAN;1;Americas;4.064.780;75.320;77;53;51;49;114;53;107;86;4 - systematic violations
 124;Papua New Guinea;PNG;2;Asia;10.185.363;462.840;107;128;133;80;181;130;137;120;NA
 125;Paraguay;PRY;1;Americas;6.109.644;406.752;93;86;87;83;104;116;142;125;3 - regular violations
@@ -133,8 +133,8 @@ id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia
 132;Romania;ROU;4;Europe;19.036.031;238.398;37;49;94;69;110;79;63;55;3 - regular violations
 133;Russia;RUS;2;Asia;146.028.325;17.098.246;9;60;NA;162;140;55;149;28;5 - no guarantee of rights
 134;Rwanda;RWA;3;Africa;14.104.969;26.338;142;152;39;153;1;171;37;38;3 - regular violations
-135;Samoa;WSM;2;Asia;205.557;2.842;171;93;NA;#N/D;166;146;NA;98;NA
-136;Saudi Arabia;SAU;3;Africa;35.300.280;2.149.690;19;36;132;167;124;162;39;62;5 - no guarantee of rights
+135;Samoa;WSM;2;Asia;205.557;2.842;171;93;NA;NA;166;146;NA;98;NA
+136;Saudi Arabia;SAU;2;Asia;35.300.280;2.149.690;19;36;132;167;124;162;39;62;5 - no guarantee of rights
 137;Senegal;SEN;3;Africa;18.593.258;196.712;102;134;116;68;26;156;61;123;4 - systematic violations
 138;Serbia;SRB;4;Europe;6.567.783;88.499;69;59;26;112;40;74;108;44;4 - systematic violations
 139;Seychelles;SYC;3;Africa;122.729;457;167;52;NA;31;82;123;24;100;NA
@@ -150,15 +150,15 @@ id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia
 149;Sri Lanka;LKA;2;Asia;21.781.800;67.240;76;111;130;44;166;98;98;99;4 - systematic violations
 150;Sudan;SDN;3;Africa;51.662.000;1.878.000;103;161;147;173;Suspended;45;166;171;5 - no guarantee of rights
 151;Suriname;SUR;1;Americas;616.500;163.820;159;88;52;41;64;177;88;162;NA
-152;Sweden;SWE;4;Europe;"10604464	";450.295;24;15;6;2;14;108;6;10;1 - sporadic violations
+152;Sweden;SWE;4;Europe;10.604.464;450.295;24;15;6;2;14;108;6;10;1 - sporadic violations
 153;Switzerland;CHE;4;Europe;9.104.063;41.291;21;5;17;4;35;121;7;36;3 - regular violations
 154;Syria;SYR;2;Asia;25.620.427;185.180;135;158;NA;163;NA;85;164;176;5 - no guarantee of rights
-155;Taiwan;TWN;2;Asia;10.499.000;35.980;21;30;NA;29;#N/D;153;25;15;2 - repeated violations
+155;Taiwan;TWN;2;Asia;10.499.000;35.980;21;30;NA;29;NA;153;25;15;2 - repeated violations
 156;Tajikistan;TJK;2;Asia;10.499.000;144.100;131;137;129;168;82;174;156;106;NA
 157;Tanzania;TZA;3;Africa;68.153.004;947.303;78;165;55;98;39;39;80;141;4 - systematic violations
 158;Thailand;THA;2;Asia;65.826.149;513.120;29;82;66;95;126;46;109;21;5 - no guarantee of rights
 159;Togo;TGO;3;Africa;8.095.498;56.785;147;147;121;121;144;19;113;97;3 - regular violations
-160;Tonga;TON;2;Asia;100.179;747;172;94;NA;#N/D;165;129;NA;103;NA
+160;Tonga;TON;2;Asia;100.179;747;172;94;NA;NA;165;129;NA;103;NA
 161;Trinidad and Tobago;TTO;1;Americas;1.367.764;5.127;118;56;28;34;104;159;72;105;4 - systematic violations
 162;Tunisia;TUN;3;Africa;11.972.169;163.610;88;105;123;104;141;24;85;78;5 - no guarantee of rights
 163;Turkey;TUR;2;Asia;86.092.168;783.562;16;57;135;140;124;95;118;33;5 - no guarantee of rights
@@ -166,7 +166,7 @@ id;country;ISO;AreaNum;Area;popolazione;superficie;PIL;PIL_pro;parita;democrazia
 165;Uganda;UGA;3;Africa;45.905.417;241.550;85;143;80;119;51;62;139;116;4 - systematic violations
 166;Ukraine;UKR;4;Europe;28.700.000;603.550;56;108;62;108;118;59;96;64;5 - no guarantee of rights
 167;United Arab Emirates;ARE;2;Asia;11.294.243;83.600;28;23;69;155;6;57;23;16;5 - no guarantee of rights
-168;United Kingdom;GBR;4;Europe;"69487000	";244.376;6;19;4;30;28;148;20;8;4 - systematic violations
+168;United Kingdom;GBR;4;Europe;69.487.000;244.376;6;19;4;30;28;148;20;8;4 - systematic violations
 169;United States;USA;1;Americas;341.784.857;9.525.067;1;9;42;51;79;160;28;6;4 - systematic violations
 170;Uruguay;URY;1;Americas;3.485.931;176.215;78;48;71;13;66;173;17;101;2 - repeated violations
 171;Uzbekistan;UZB;2;Asia;38.236.704;447.400;60;113;110;154;38;44;119;69;NA

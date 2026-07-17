@@ -816,18 +816,18 @@
                 }
 
                 const hintCards = [
-                    { label: 'Area geografica', value: targetItem.area || 'n/d' },
-                    { label: 'popolazione (milioni)', value: targetItem.population || 'n/d' },
-                    { label: 'superficie (km2)', value: targetItem.surface || 'n/d' },
-                    { label: 'PIL', value: targetAttempts >= 1 ? (targetItem.pil || 'n/d') : '---' },
-                    { label: 'donne in parlamento', value: targetAttempts >= 1 ? (targetItem.womenInParliament || 'n/d') : '---' },
-                    { label: 'lotta alla corruzione', value: targetAttempts >= 1 ? (targetItem.corruption || 'n/d') : '---' },                    
-                    { label: 'PIL pro capite', value: targetAttempts >= 2 ? (targetItem.pilPro || 'n/d') : '---' },                    
-                    { label: 'democrazia', value: targetAttempts >= 2 ? (targetItem.democracy || 'n/d') : '---' },
-                    { label: 'diritti dei lavoratori', value: targetAttempts >= 2 ? (targetItem.workers || 'n/d') : '---' },                   
-                    { label: 'parità di genere', value: targetAttempts >= 3 ? (targetItem.parity || 'n/d') : '---' },
-                    { label: 'libertà di stampa', value: targetAttempts >= 3 ? (targetItem.press || 'n/d') : '---' },
-                    { label: 'facilità di fare affari', value: targetAttempts >= 3 ? (targetItem.business || 'n/d') : '---' },                    
+                    { label: 'Area geografica / Geographic Area', value: targetItem.area || 'n/d' },
+                    { label: 'Popolazione / Population', value: targetItem.population || 'n/d' },
+                    { label: 'Superficie / Surface (km2)', value: targetItem.surface || 'n/d' },
+                    { label: 'Prodotto Interno Lordo nominale / Nominal Gross Domestic Product', value: targetAttempts >= 1 ? (targetItem.pil || 'n/d') : '---' },
+                    { label: 'Donne in parlamento / Women in Parliament', value: targetAttempts >= 1 ? (targetItem.womenInParliament || 'n/d') : '---' },
+                    { label: 'Lotta alla corruzione / Fight against corruption', value: targetAttempts >= 1 ? (targetItem.corruption || 'n/d') : '---' },                    
+                    { label: 'Prodotto Interno Lordo pro capite / pro capita Gross Domestic Product ', value: targetAttempts >= 2 ? (targetItem.pilPro || 'n/d') : '---' },                    
+                    { label: 'Democrazia liberale / Liberal democracy', value: targetAttempts >= 2 ? (targetItem.democracy || 'n/d') : '---' },
+                    { label: 'Protezione dei lavoratori / Workers\' protection', value: targetAttempts >= 2 ? (targetItem.workers || 'n/d') : '---' },                   
+                    { label: 'Uguaglianza di genere / Gender equality', value: targetAttempts >= 3 ? (targetItem.parity || 'n/d') : '---' },
+                    { label: 'Libertà di stampa / Freedom of the press', value: targetAttempts >= 3 ? (targetItem.press || 'n/d') : '---' },
+                    { label: 'Facilità di fare affari / Ease of doing business', value: targetAttempts >= 3 ? (targetItem.business || 'n/d') : '---' },                    
                 ];
 
                 questionDisplayEl.innerHTML =

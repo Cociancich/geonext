@@ -320,6 +320,7 @@
             return props.ADMIN || props.NAME || props.name || 'Stato sconosciuto';
         }
 
+
         function normalizeCountryName(name) {
             if (!name) return '';
             return String(name)
@@ -1229,12 +1230,19 @@
 
                 if (correct) {
                     const wrongAttempts = Math.max(targetAttempts - 1, 0);
+                    const areaNum = Number(targetItem && targetItem.areaNum) || 0;
+                    const score = areaNum > 1 ? (7 - areaNum - wrongAttempts) : (5 - wrongAttempts);
                     clearAttemptRadiusCircle();
                     modal.showModal(
                         "Risultato",
                         "✅ Corretto! Hai cliccato dentro i confini di " + getCountryName(targetFeature) + "." +
                         "\nTentativi utilizzati: " + targetAttempts + "." +
-                        (wrongAttempts > 0 ? "\nTentativi sbagliati prima della risposta esatta: " + wrongAttempts + "." : "")
+                        "\nTentativi sbagliati prima della risposta esatta: " + wrongAttempts + "." +                 
+                        "\n Punteggio: " + score + " punti."
+              
+  
+                      //  "\nArea: " + getAreaNum(targetFeature) + "." +
+                     //   (wrongAttempts > 0 ? "\nTentativi sbagliati prima della risposta esatta: " + wrongAttempts + "." : "")
                     );
                     stopTargetTimer();
                     /*

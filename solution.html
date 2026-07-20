@@ -2,13 +2,20 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Geo-Guessr NEXT</title>
     <!-- Riferimento al file locale scaricato --> 
     <link rel="stylesheet" href="leaflet.css" />
     <style>
-        body { font-family: sans-serif; text-align: center; background: #f4f4f4; }
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
         .controls {
-            width: 80%;
+            width: min(92vw, 960px);
             margin: 12px auto 0;
             display: flex;
             gap: 10px;
@@ -43,6 +50,9 @@
             opacity: 0.65;
             cursor: not-allowed;
         }
+        .controls > :not(#country-number-input):not(#confirm-country) {
+            display: none;
+        }
         #load-questions-file {
             display: none;
         }
@@ -50,58 +60,10 @@
             width: 160px;
         }
         #country-number-input {
-            width: 120px;
+            width: min(32vw, 120px);
         }
         #question-display {
-            width: 80%;
-            margin: 12px auto;
-            padding: 14px;
             display: none;
-            background: #ffffff;
-            border: 1px solid #d8d8d8;
-            border-radius: 14px;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
-        }
-        #question-display.active {
-            display: block;
-        }
-        .hint-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px;
-        }
-        @media (max-width: 1280px) {
-            .hint-grid {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-            }
-        }
-        @media (max-width: 900px) {
-            .hint-grid {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-            }
-        }
-        .hint-card {
-            border: 1px solid #e2e2e2;
-            border-radius: 12px;
-            background: #f8fafc;
-            padding: 12px 14px;
-            text-align: left;
-        }
-        .hint-label {
-            display: block;
-            color: #5b6472;
-            font-size: 0.84rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            margin-bottom: 6px;
-        }
-        .hint-value {
-            display: block;
-            color: #1f2937;
-            font-size: 1.02rem;
-            font-weight: 600;
-            word-break: break-word;
         }
         #csv-info {
             width: 80%;
@@ -110,9 +72,9 @@
             font-size: 0.92rem;
         }
         #game-footer {
-            width: 80%;
+            width: min(92vw, 960px);
             margin: 12px auto 20px;
-            padding: 16px 18px;
+            padding: 14px 16px;
             border-radius: 14px;
             background: #ffffff;
             border: 1px solid #d5d5d5;
@@ -121,36 +83,20 @@
             font-weight: 600;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
         }
-        .footer-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .footer-row + .footer-row {
-            margin-top: 10px;
-        }
-        .footer-label {
-            margin-right: 14px;
-        }
-        .brain-strip {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            vertical-align: middle;
-        }
-        .brain-icon {
-            width: 28px;
-            height: 28px;
-            display: inline-block;
-        }
-        #timer-value {
+        #state-name {
             color: #1f2937;
             font-weight: 700;
+            word-break: break-word;
         }
-        #map { height: 600px; width: 80%; margin: 20px auto; border: 2px solid #333; background: #9fd8ff; }
+        #map {
+            height: min(62vh, 600px);
+            width: min(92vw, 960px);
+            margin: 16px auto;
+            border: 2px solid #333;
+            background: #9fd8ff;
+            border-radius: 12px;
+            overflow: hidden;
+        }
         #status { font-weight: bold; color: blue; display: none; }
         .modal-overlay {
             position: fixed;
@@ -208,6 +154,53 @@
             display: none;
             margin-left: 10px;
         }
+        @media (max-width: 640px) {
+            .controls {
+                width: min(94vw, 960px);
+                gap: 8px;
+            }
+
+            .controls input,
+            .controls button {
+                width: 100%;
+                font-size: 1rem;
+                padding: 12px 14px;
+                box-sizing: border-box;
+            }
+
+            #country-number-input {
+                max-width: none;
+            }
+
+            #map {
+                width: min(94vw, 960px);
+                height: 56vh;
+                margin: 14px auto;
+                border-width: 1px;
+                border-radius: 10px;
+            }
+
+            #game-footer {
+                width: min(94vw, 960px);
+                padding: 12px 14px;
+                font-size: 1rem;
+                border-radius: 12px;
+                margin-bottom: 16px;
+            }
+
+            .modal-card {
+                width: min(92vw, 460px);
+                padding: 16px;
+            }
+
+            #modal-title {
+                font-size: 1.1rem;
+            }
+
+            #modal-ok {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -217,34 +210,14 @@
       -->
     <div id="status">Inizializzazione in corso...</div>
     <div class="controls">
-        <select id="area-select">                     
-            <option value="1">Africa</option>
-            <option value="2">Asia-Oceania</option>
-            <option value="3">America</option>
-            <option value="4">Europa</option>
-        </select>
-        <button id="random-country" type="button" disabled>Random</button>
-        <label for="country-number-input">Domanda:</label>
         <input id="country-number-input" type="number" min="1" step="1" inputmode="numeric" placeholder="1" disabled />
         <button id="confirm-country" type="button" disabled>OK</button>
-        <button id="load-questions-file" type="button">Carica Stati_2026.csv</button>
-        <input id="questions-file-input" type="file" accept=".csv,text/csv" hidden />
     </div>
     <div id="question-display" aria-live="polite"></div>
     <!-- <div id="csv-info">File lista: questions.csv</div> -->
     <div id="map"></div>
     <footer id="game-footer">
-        <div class="footer-row">
-            <span class="footer-label">Tempo residuo:</span>
-            <span id="timer-value" aria-live="polite">120s</span>
-            <span class="footer-label">Tentativi residui:</span>
-            <span id="attempts-strip" class="brain-strip" aria-live="polite" aria-label="Tentativi residui: 5"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"></span>
-        </div>
-        <div id="solution-display" aria-live="polite">
-            <button id="show-solution" type="button">Mostra soluzione</button>
-            <span id="solution-info" style="margin-left: 10px;"></span>
-        </div>
-        </div>
+        <span>Stato: <span id="state-name" aria-live="polite">-</span></span>
     </footer>
     <div id="game-modal" class="modal-overlay" aria-hidden="true">
         <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -552,6 +525,17 @@
             };
         }
 
+        function getHighlightedCountryStyle(feature, featureAreaMap) {
+            const baseStyle = getCountryBorderStyle(feature, featureAreaMap);
+
+            return {
+                color: '#ff2d55',
+                weight: 3,
+                fillColor: baseStyle.fillColor,
+                fillOpacity: 0.92
+            };
+        }
+
         function buildCountryIndex(features) {
             const index = new Map();
 
@@ -642,17 +626,9 @@
             const csvInfoEl = document.getElementById('csv-info');
             const countryNumberInput = document.getElementById('country-number-input');
             const confirmCountryButton = document.getElementById('confirm-country');
-            const randomCountryButton = document.getElementById('random-country');
-            const loadQuestionsButton = document.getElementById('load-questions-file');
-            const questionsFileInput = document.getElementById('questions-file-input');
-            const areaSelect = document.getElementById('area-select');
             const modal = createModalController();
             statusEl.innerText = "⏳ Caricamento confini degli Stati...";
             statusEl.style.color = "blue";
-
-            if (loadQuestionsButton) {
-                loadQuestionsButton.style.display = window.location.protocol === 'file:' ? 'inline-block' : 'none';
-            }
             
             const map = L.map('map').setView([20, 0], 2);
 
@@ -671,6 +647,7 @@
             let countryBorders = null;
             let featureAreaMap = new Map();
             let attemptRadiusCircle = null;
+            const stateNameEl = document.getElementById('state-name');
             const footerEl = document.getElementById('game-footer');
             const attemptsStripEl = document.getElementById('attempts-strip');
             const timerValueEl = document.getElementById('timer-value');
@@ -679,6 +656,7 @@
             const solutionInfoEl = document.getElementById('solution-info');
             const brainImageSrc = 'cervello.png';
             let solutionInfoVisible = false;
+            let highlightedCountryLayer = null;
 
             function hideSolutionDisplay() {
                 solutionInfoVisible = false;
@@ -720,6 +698,12 @@
                 timerValueEl.innerText = targetTimerSecondsLeft + 's';
             }
 
+            function updateStateFooter() {
+                if (!stateNameEl) return;
+
+                stateNameEl.innerText = targetFeature ? getCountryName(targetFeature) : '-';
+            }
+
             function stopTargetTimer() {
                 if (targetTimerId !== null) {
                     window.clearInterval(targetTimerId);
@@ -732,6 +716,29 @@
                     map.removeLayer(attemptRadiusCircle);
                     attemptRadiusCircle = null;
                 }
+            }
+
+            function clearHighlightedCountryLayer() {
+                if (!countryBorders || !highlightedCountryLayer) return;
+
+                countryBorders.resetStyle(highlightedCountryLayer);
+                highlightedCountryLayer = null;
+            }
+
+            function highlightTargetCountry(feature) {
+                if (!countryBorders || !feature) return;
+
+                clearHighlightedCountryLayer();
+
+                countryBorders.eachLayer(function(layer) {
+                    if (layer.feature !== feature) return;
+
+                    highlightedCountryLayer = layer;
+                    layer.setStyle(getHighlightedCountryStyle(feature, featureAreaMap));
+                    if (layer.bringToFront) {
+                        layer.bringToFront();
+                    }
+                });
             }
 
             function drawAttemptRadiusCircle(latlng, radiusKm) {
@@ -808,35 +815,8 @@
             function renderQuestionDisplay() {
                 const questionDisplayEl = document.getElementById('question-display');
                 if (!questionDisplayEl) return;
-
-                if (!targetItem) {
-                    questionDisplayEl.classList.remove('active');
-                    questionDisplayEl.innerHTML = '';
-                    return;
-                }
-
-                const hintCards = [
-                    { label: 'Area geografica / Geographic Area', value: targetItem.area || 'n/d' },
-                    { label: 'Popolazione / Population', value: targetItem.population || 'n/d' },
-                    { label: 'Superficie / Surface (km2)', value: targetItem.surface || 'n/d' },
-                    { label: 'Prodotto Interno Lordo nominale / Nominal Gross Domestic Product', value: targetItem.pil || 'n/d' },
-                    { label: 'Donne in parlamento / Women in Parliament', value: targetItem.womenInParliament || 'n/d'},
-                    { label: 'Lotta alla corruzione / Fight against corruption', value: targetItem.corruption || 'n/d'},                    
-                    { label: 'Prodotto Interno Lordo pro capite / pro capita Gross Domestic Product ', value: targetAttempts >= 1 ? (targetItem.pilPro || 'n/d') : '---' },                    
-                    { label: 'Democrazia liberale / Liberal democracy', value: targetAttempts >= 1 ? (targetItem.democracy || 'n/d') : '---' },
-                    { label: 'Protezione dei lavoratori / Workers\' protection', value: targetAttempts >= 1 ? (targetItem.workers || 'n/d') : '---' },                   
-                    { label: 'Uguaglianza di genere / Gender equality', value: targetAttempts >= 2 ? (targetItem.parity || 'n/d') : '---' },
-                    { label: 'Libertà di stampa / Freedom of the press', value: targetAttempts >= 2 ? (targetItem.press || 'n/d') : '---' },
-                    { label: 'Facilità di fare affari / Ease of doing business', value: targetAttempts >= 2 ? (targetItem.business || 'n/d') : '---' },                    
-                ];
-
-                questionDisplayEl.innerHTML =
-                    '<div class="hint-grid">' +
-                    hintCards.map(function(card) {
-                        return '<div class="hint-card"><span class="hint-label">' + card.label + '</span><span class="hint-value">' + card.value + '</span></div>';
-                    }).join('') +
-                    '</div>';
-                questionDisplayEl.classList.add('active');
+                questionDisplayEl.innerHTML = '';
+                questionDisplayEl.style.display = 'none';
             }
 
             function renderSolutionDisplay() {
@@ -933,6 +913,12 @@
                 updateStatusWithTarget("🎯 " + sourceLabel + ":");
                 updateFooterAttempts();
                 startTargetTimer();
+                updateStateFooter();
+                highlightTargetCountry(targetFeature);
+                const targetBounds = L.geoJSON(targetFeature).getBounds();
+                if (targetBounds.isValid()) {
+                    map.fitBounds(targetBounds, { padding: [24, 24], maxZoom: 6 });
+                }
                 /*
                 if(targetAttempts >= 1){
                     startTargetTimer();
@@ -960,8 +946,6 @@
                 if (confirmCountryButton) {
                     confirmCountryButton.disabled = targetItems.length === 0;
                 }
-
-                randomCountryButton.disabled = targetItems.length === 0;
             }
 
             function loadQuestionFromInput() {
@@ -983,45 +967,6 @@
                 // Auto-set the target when confirmed from the numeric input
                 randomMode = false;
                 setTarget(selectedItem.feature, "Stato scelto da CSV");
-            }
-
-            function setRandomTarget() {
-                stopTargetTimer();
-                if (!targetItems.length) return;
-
-                const selectedArea = areaSelect ? normalizeAreaNum(areaSelect.value) : '';
-                const filteredItems = selectedArea
-                    ? targetItems.filter(function(item) {
-                        return normalizeAreaNum(item.areaNum) === selectedArea;
-                    })
-                    : targetItems;
-
-                if (!filteredItems.length) {
-                    modal.showModal(
-                        'Area vuota',
-                        'Non ci sono Stati disponibili per l’area selezionata.'
-                    );
-                    return;
-                }
-
-                let nextItem = filteredItems[Math.floor(Math.random() * filteredItems.length)];
-                if (filteredItems.length > 1 && targetFeature) {
-                    while (nextItem.feature === targetFeature) {
-                        nextItem = filteredItems[Math.floor(Math.random() * filteredItems.length)];
-                    }
-                }
-                //document.getElementById('question-display').textContent = nextItem.feature;
-
-                //setTarget(nextItem.feature, "Indovina lo Stato");
-
-                if (countryNumberInput) {
-                    const randomIndex = targetItems.findIndex(function(item) {
-                        return item.feature === nextItem.feature;
-                    });
-                    if (randomIndex >= 0) {
-                        countryNumberInput.value = String(randomIndex + 1);
-                    }
-                }
             }
 
             try {
@@ -1056,6 +1001,11 @@
                         });
 
                         layer.on('mouseout', function() {
+                            if (highlightedCountryLayer === layer) {
+                                layer.setStyle(getHighlightedCountryStyle(layer.feature, featureAreaMap));
+                                return;
+                            }
+
                             countryBorders.resetStyle(layer);
                         });
                     }
@@ -1074,6 +1024,10 @@
                     countryBorders.eachLayer(function(layer) {
                         layer.setStyle(getCountryBorderStyle(layer.feature, featureAreaMap));
                     });
+
+                    if (targetFeature) {
+                        highlightTargetCountry(targetFeature);
+                    }
                 }
 
                 try {
@@ -1135,7 +1089,6 @@
                 }
 
                 refreshCountryInput();
-                setRandomTarget();
             } catch (error) {
                 statusEl.innerHTML = "❌ Errore nel caricamento dei confini locali.<br>Verifica che countries.geojson sia nella stessa cartella e apri la pagina via server locale (http://localhost:PORT).";
                 statusEl.style.color = "red";
@@ -1146,49 +1099,6 @@
                     "Controlla che il file esista nella cartella del progetto e avvia la pagina con un server locale."
                 );
                 return;
-            }
-
-            if (loadQuestionsButton && questionsFileInput) {
-                loadQuestionsButton.addEventListener('click', function() {
-                    questionsFileInput.click();
-                });
-
-                questionsFileInput.addEventListener('change', async function() {
-                    const selectedFile = questionsFileInput.files && questionsFileInput.files[0];
-                    if (!selectedFile) return;
-
-                    try {
-                        const csvText = decodeCsvBytes(await selectedFile.arrayBuffer());
-                        const csvEntries = parseQuestionsCsv(csvText);
-                        const csvResult = mapCsvEntriesToTargetItems(csvEntries, countryIndex);
-
-                        targetItems = csvResult.items;
-                        featureAreaMap = buildFeatureAreaMap(targetItems);
-                        if (countryBorders) {
-                            countryBorders.eachLayer(function(layer) {
-                                layer.setStyle(getCountryBorderStyle(layer.feature, featureAreaMap));
-                            });
-                        }
-                        refreshCountryInput();
-                        setRandomTarget();
-
-                        if (csvResult.missing.length) {
-                            const preview = csvResult.missing.slice(0, 8).join(', ');
-                            const suffix = csvResult.missing.length > 8 ? '...' : '';
-                            modal.showModal(
-                                'CSV parziale',
-                                'Alcuni nomi nel CSV non corrispondono al dataset:\n' + preview + suffix
-                            );
-                        }
-                    } catch (error) {
-                        modal.showModal(
-                            'Errore CSV',
-                            'Non riesco a leggere questions.csv selezionato.\nDettaglio: ' + error.message
-                        );
-                    } finally {
-                        questionsFileInput.value = '';
-                    }
-                });
             }
 
             if (confirmCountryButton) {
@@ -1202,11 +1112,6 @@
                     }
                 });
             }
-
-            randomCountryButton.addEventListener('click', function() {
-                randomMode = true;
-                setRandomTarget();
-            });
 
             map.on('click', function(e) {
                 if (!targetFeature) return;
@@ -1302,6 +1207,8 @@
                     solutionInfoVisible = true;
                 });
             }
+
+            updateStateFooter();
         }
 
         // Aspetta che tutto sia pronto

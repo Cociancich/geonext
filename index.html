@@ -235,9 +235,9 @@
     <div id="map"></div>
     <footer id="game-footer">
         <div class="footer-row">
-            <span class="footer-label">Tempo residuo:</span>
+            <span class="footer-label">Tempo residuo / Remaining Time:</span>
             <span id="timer-value" aria-live="polite">120s</span>
-            <span class="footer-label">Tentativi residui:</span>
+            <span class="footer-label">Tentativi residui / Remaining Attempts:</span>
             <span id="attempts-strip" class="brain-strip" aria-live="polite" aria-label="Tentativi residui: 3"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"></span>
         </div>
         <div id="solution-display" aria-live="polite">
@@ -774,10 +774,11 @@
                     renderSolutionDisplay();
                     modal.showModal(
                         'Tempo scaduto',
-                        'Il tempo è scaduto e hai consumato l’ultimo tentativo disponibile.',
+                        'Il tempo è scaduto e hai consumato l’ultimo tentativo disponibile.' /*,
                         function () {
                             window.location.reload();
                         }
+                            */
                     );
                     stopTargetTimer();
                     return;
@@ -785,7 +786,10 @@
 
                 modal.showModal(
                     'Tempo scaduto',
-                    'Il tempo è scaduto e hai perso un tentativo.'
+                    'Il tempo è scaduto e hai perso un tentativo.',
+                    function () {
+                        startTargetTimer();
+                    }
                 );
                //startTargetTimer();
             }
@@ -1147,7 +1151,7 @@
                 }
 
                 refreshCountryInput();
-                setRandomTarget();
+                //setRandomTarget();
             } catch (error) {
                 statusEl.innerHTML = "❌ Errore nel caricamento dei confini locali.<br>Verifica che countries.geojson sia nella stessa cartella e apri la pagina via server locale (http://localhost:PORT).";
                 statusEl.style.color = "red";
@@ -1228,10 +1232,11 @@
                     modal.showModal(
                         "Risultato",
                         "⚠️ Tentativi esauriti per questo Stato." +
-                        "\nI tentativi disponibili erano " + maxTargetAttempts + ".",
+                        "\nI tentativi disponibili erano " + maxTargetAttempts + "." /*,
                         function () {
                             window.location.reload();
                         }
+                        */
                     );
                     return;
                 }
@@ -1301,13 +1306,14 @@
                     "Risultato",
                     "❌ Sbagliato. Hai cliccato in: " + where + "." +
                     "\nIndizio distanza dal confine più vicino: circa " + distanceHintText + " km." +
-                    "\nTentativi residui: " + Math.max(maxTargetAttempts - targetAttempts, 0) + "." +
-                    (targetAttempts >= maxTargetAttempts ? "\nTentativi esauriti." : "\nRiprova!"),
+
+                    (targetAttempts >= maxTargetAttempts ? "\nTentativi esauriti." : "\nRiprova!") /*,
                     targetAttempts >= maxTargetAttempts
                         ? function () {
                             window.location.reload();
                         }
                         : null
+                        */
                 );
                 renderSolutionDisplay();
                 

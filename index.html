@@ -70,6 +70,23 @@
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 10px;
         }
+        #remaining-hints {
+            display: none;
+        }
+        .start-button {
+            padding: 10px 18px;
+            font-size: 1.05rem;
+            border-radius: 12px;
+            background: #2a7bd6;
+            color: #fff;
+            border: 1px solid #2a7bd6;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .start-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
         @media (max-width: 1280px) {
             .hint-grid {
                 grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -673,6 +690,7 @@
             let targetItem = null;
             let targetCenter = null;
             let targetAttempts = 0;
+            let remainingRevealed = false;
             const maxTargetAttempts = 3;
             const maxTargetSeconds = 120;
             let targetTimerSecondsLeft = maxTargetSeconds;
@@ -830,6 +848,9 @@
                 if (!targetItem) {
                     questionDisplayEl.classList.remove('active');
                     questionDisplayEl.innerHTML = '';
+                    remainingRevealed = false;
+                    const sb = document.getElementById('start-hints');
+                    if (sb) sb.disabled = true;
                     return;
                 }
 
@@ -848,13 +869,42 @@
                     { label: 'Facilità di fare affari / Ease of doing business', value: targetAttempts >= 2 ? (targetItem.business || 'n/d') : '---' },                    
                 ];
 
-                questionDisplayEl.innerHTML =
-                    '<div class="hint-grid">' +
-                    hintCards.map(function(card) {
+                // split first row (first 3) and the remaining 9 as a separate hidden block
+                const firstRow = hintCards.slice(0, 3);
+                const remaining = hintCards.slice(3);
+
+                const firstHtml = '<div id="first-row-hints" class="hint-grid">' +
+                    firstRow.map(function(card) {
                         return '<div class="hint-card"><span class="hint-label">' + card.label + '</span><span class="hint-value">' + card.value + '</span></div>';
                     }).join('') +
                     '</div>';
+
+                const remainingHtml = '<div id="remaining-hints" class="hint-grid">' +
+                    remaining.map(function(card) {
+                        return '<div class="hint-card"><span class="hint-label">' + card.label + '</span><span class="hint-value">' + card.value + '</span></div>';
+                    }).join('') +
+                    '</div>';
+
+                // inject START button between first row and remaining hints
+                const startButtonHtml = '<div style="display:flex;justify-content:center;margin:8px 0;"><button id="start-hints" class="start-button">START</button></div>';
+                questionDisplayEl.innerHTML = firstHtml + startButtonHtml + remainingHtml;
                 questionDisplayEl.classList.add('active');
+
+                // wire the dynamic START button and set initial visibility
+                const startBtn = document.getElementById('start-hints');
+                const rem = document.getElementById('remaining-hints');
+                if (rem) {
+                    rem.style.display = remainingRevealed ? 'grid' : 'none';
+                }
+                if (startBtn) {
+                    startBtn.disabled = remainingRevealed;
+                    startBtn.onclick = function() {
+                        remainingRevealed = true;
+                        const r = document.getElementById('remaining-hints');
+                        if (r) r.style.display = 'grid';
+                        startBtn.disabled = true;
+                    };
+                }
             }
 
             function renderSolutionDisplay() {
@@ -940,6 +990,9 @@
 
             function setTarget(feature, sourceLabel) {
                 if (!feature) return;
+
+                // reset reveal state for new targets
+                remainingRevealed = false;
 
                 clearAttemptRadiusCircle();
                 targetFeature = feature;
@@ -1212,6 +1265,9 @@
             if (confirmCountryButton) {
                 confirmCountryButton.addEventListener('click', loadQuestionFromInput);
             }
+
+            // START button is created dynamically inside the question display; its click handler
+            // is attached when `renderQuestionDisplay` runs.
 
             if (countryNumberInput) {
                 countryNumberInput.addEventListener('keydown', function(event) {

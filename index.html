@@ -691,6 +691,7 @@
             let targetCenter = null;
             let targetAttempts = 0;
             let remainingRevealed = false;
+            let mapClicksEnabled = false;
             const maxTargetAttempts = 3;
             const maxTargetSeconds = 120;
             let targetTimerSecondsLeft = maxTargetSeconds;
@@ -898,8 +899,11 @@
                 }
                 if (startBtn) {
                     startBtn.disabled = remainingRevealed;
+                    // ensure map clicks are disabled until START pressed
+                    mapClicksEnabled = remainingRevealed;
                     startBtn.onclick = function() {
                         remainingRevealed = true;
+                        mapClicksEnabled = true;
                         const r = document.getElementById('remaining-hints');
                         if (r) r.style.display = 'grid';
                         startBtn.disabled = true;
@@ -1283,6 +1287,13 @@
             });
 
             map.on('click', function(e) {
+                if (!mapClicksEnabled) {
+                    modal.showModal(
+                        'Premi START',
+                        'Premi il pulsante START tra gli indizi per abilitare i tentativi sulla mappa.'
+                    );
+                    return;
+                }
                 if (!targetFeature) return;
 
                 if (targetAttempts >= maxTargetAttempts) {

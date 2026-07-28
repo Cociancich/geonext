@@ -235,8 +235,10 @@
     <div id="map"></div>
     <footer id="game-footer">
         <div class="footer-row">
+            <!--
             <span class="footer-label">Tempo residuo / Remaining Time:</span>
             <span id="timer-value" aria-live="polite">120s</span>
+        -->
             <span class="footer-label">Tentativi residui / Remaining Attempts:</span>
             <span id="attempts-strip" class="brain-strip" aria-live="polite" aria-label="Tentativi residui: 3"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"><img class="brain-icon" src="cervello.png" alt="" aria-hidden="true"></span>
         </div>
@@ -780,7 +782,7 @@
                         }
                             */
                     );
-                    stopTargetTimer();
+                  //  stopTargetTimer();
                     return;
                 }
 
@@ -788,14 +790,14 @@
                     'Tempo scaduto',
                     'Il tempo è scaduto e hai perso un tentativo.',
                     function () {
-                        startTargetTimer();
+                       // startTargetTimer();
                     }
                 );
                //startTargetTimer();
             }
 
             function startTargetTimer() {
-                stopTargetTimer();
+              //  stopTargetTimer();
                 targetTimerSecondsLeft = maxTargetSeconds;
                 updateTimerDisplay();
 
@@ -805,7 +807,7 @@
                     targetTimerSecondsLeft -= 1;
                     if (targetTimerSecondsLeft <= 0) {
                         updateTimerDisplay();
-                        stopTargetTimer();
+                       // stopTargetTimer();
                         handleTimerExpired();
                         return;
                     }
@@ -948,7 +950,7 @@
                 }) || null;
                 updateStatusWithTarget("🎯 " + sourceLabel + ":");
                 updateFooterAttempts();
-                startTargetTimer();
+               // startTargetTimer();
                 /*
                 if(targetAttempts >= 1){
                     startTargetTimer();
@@ -981,7 +983,7 @@
             }
 
             function loadQuestionFromInput() {
-                stopTargetTimer();
+              //  stopTargetTimer();
                 const questionDisplayEl = document.getElementById('question-display');
                 if (!questionDisplayEl || !countryNumberInput) return;
 
@@ -1002,7 +1004,7 @@
             }
 
             function setRandomTarget() {
-                stopTargetTimer();
+                //stopTargetTimer();
                 if (!targetItems.length) return;
 
                 const selectedArea = areaSelect ? normalizeAreaNum(areaSelect.value) : '';
@@ -1228,7 +1230,7 @@
                 if (!targetFeature) return;
 
                 if (targetAttempts >= maxTargetAttempts) {
-                    stopTargetTimer();
+                    // stopTargetTimer();
                     modal.showModal(
                         "Risultato",
                         "⚠️ Tentativi esauriti per questo Stato." +
@@ -1243,7 +1245,7 @@
 
                 targetAttempts++;
                 updateFooterAttempts();
-                startTargetTimer();
+                //startTargetTimer();
                 renderQuestionDisplay();
                 const point = [e.latlng.lng, e.latlng.lat];
                 const correct = isPointInGeometry(point, targetFeature.geometry);
@@ -1265,7 +1267,7 @@
                         }
      
                     );
-                    stopTargetTimer();
+                 //   stopTargetTimer();
                     /*
                     if (randomMode) {
                         setRandomTarget();
